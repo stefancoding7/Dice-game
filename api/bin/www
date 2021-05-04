@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
+const socketio = require('socket.io');
 
 /**
  * Get port from environment and store in Express.
@@ -20,12 +21,32 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+const io = socketio(server);
+
+//RUn when client connects 
+io.on('connection', socket => {
+  console.log('New wb conections');
+
+  //To client to single client
+  socket.emit('message', 'Welcome to Dice game');
+
+  // All the client who signed 
+  socket.broadcast.emit('message', 'A user has joined to play');
+
+  //Client when disconnect
+  socket.on('disconnect', () => { 
+    io.emit('message', 'A user has left the game')
+  })
+})
+
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
+});
 server.on('error', onError);
 server.on('listening', onListening);
 
