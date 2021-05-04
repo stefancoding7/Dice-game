@@ -1,0 +1,16 @@
+body {
+    background-image: linear-gradient(to top, #fd1840, #ff4a6f, #ff7098, #ff92bb, #ffb1d7);
+}
+
+.container-fluid {
+    height: 100vh;
+}
+
+
+
+.dice-img {
+    
+    height: 270px;
+    width: 270px;
+}
+
