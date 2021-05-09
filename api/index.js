@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
             
             const users = getUsersInRoom(user.room);
            
-            io.to(user.room).emit('rolledNumber', { users }); 
+            io.to(user.room).emit('roomData', { users }); 
         }
        
        
@@ -91,27 +91,22 @@ io.on('connection', (socket) => {
         const user = getUser(socket.id);
         if(user.rollId == user.activePlayer) {
            const currentPoints = sumNumbers(user.currentPoints);
-           user.allPoints = currentPoints;
+           user.allPoints += currentPoints;
            user.currentPoints = [0];
            socket.emit('hideButton', { hideButton: false})
            getUsersInRoom(user.room).map( u => {
             if(u.rollId != u.activePlayer) {
                 u.activePlayer = u.activePlayer === 0 ? u.activePlayer = 1 : u.activePlayer = 0;
                 socket.broadcast.emit('hideButton', { hideButton: true})
-                const  users = getUsersInRoom(user.room);
-                
-                io.to(user.room).emit('holdedNumber', { users }) 
+            } else {
+                user.activePlayer = user.activePlayer === 0 ? user.activePlayer = 1 : user.activePlayer = 0;
             }
             })
-           user.activePlayer = user.activePlayer === 0 ? user.activePlayer = 1 : user.activePlayer = 0;
+           
             
-          
-        //    users.map( (u) => {
-        //     if(u.rollId == u.activePlayer) {
-        //         socket.broadcast.emit('hideButton', { hideButton: true})
-        //     }
-        // })
-          
+           const  users = getUsersInRoom(user.room);
+        
+           io.to(user.room).emit('roomData', { users }) 
         } 
     })
 

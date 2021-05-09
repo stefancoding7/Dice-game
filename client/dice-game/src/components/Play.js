@@ -45,17 +45,10 @@ const Play = ({ location }) => {
         
     }, []);
 
-    useEffect(() => {
-        socket.on('rolledNumber', ({ users }) => {
-            setUsers(users);
-        })
-    }, [])
+    
 
     useEffect(() => {
-        socket.on('holdedNumber', ({ users, user }) => {
-            setUsers(users);
-            
-        })
+       
         socket.on('hideButton', ({ hideButton }) => {
             setHideButton(hideButton)
         })
