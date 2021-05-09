@@ -14,3 +14,33 @@ body {
     width: 270px;
 }
 
+.button-group {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.player-box {
+    height: 40vh;
+}
+
+.current-box{
+    background-color: coral;
+    border-radius: 30px;
+}
+
+.current-score-box{
+    background-color: white;
+    border-radius: 30px;
+}
+
+input{
+    background-color:rgba(0,0,0,0) !important;
+    border-radius: 30px;
+  
+ }
+
+ .opacity {
+     opacity: 0.5;
+ }

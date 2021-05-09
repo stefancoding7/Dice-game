@@ -1,61 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client';
+import PlaySide from './PlaySide';
+import Controllers from './Controllers';
 
 let socket;
 
 const Play = ({ location }) => {
     const [room, setRoom] = useState('');
-    const ENDPOINT = 'http://localhost:5000';
+    const [name, setName] = useState('');
+    const [users, setUsers] = useState([]);
+    const [hideButton, setHideButton] = useState(false)
+    const [currentPoints, setCurrentPoints] = useState([]);
+
+    const ENDPOINT = 'http://192.168.0.21:5000';
     useEffect(() => {
-        const { room } = queryString.parse(location.search);
+        const { name, room } = queryString.parse(location.search);
 
         socket = io(ENDPOINT, {
             withCredentials: true,
         });
+        
         setRoom(room);
+        setName(name)
+        socket.emit('join', { name, room }, () => {
 
-        socket.emit('join', { room })
+        })
 
-        console.log(socket);
-
+        
         return () => {
-            socket.emit('disconnect');
+            // socket.emit('disconnect');
 
             socket.off();
         }
+
     }, [ENDPOINT, location.search])
 
+    useEffect(() => {
+        
+        
+        socket.on("roomData", ({ users }) => {
+          setUsers(users);
+        });
+        
+    }, []);
+
+    useEffect(() => {
+        socket.on('rolledNumber', ({ users }) => {
+            setUsers(users);
+        })
+    }, [])
+
+    useEffect(() => {
+        socket.on('holdedNumber', ({ users, user }) => {
+            setUsers(users);
+            
+        })
+        socket.on('hideButton', ({ hideButton }) => {
+            setHideButton(hideButton)
+        })
+    })
+
+    const roll = (e) => {
+
+        e.preventDefault();
+
+        socket.emit('roll', 'roll');
+       
+      }
+
+      const hold = (e) => {
+        e.preventDefault();
+        socket.emit('hold', 'hold')
+      }
     return (
-        <div className="container-fluid">
-        <div className="row">
-            <div className="col mb-5 mt-5">
-                <h1 className="text-center">Play</h1>
-            </div>
-        </div>
-       
-        
-           
-        <div className="row" >
-        
-            <div className="col-sm-12  text-center mt-5">
-                <h5>Room {room}</h5>
-                
-            </div>
-           
-        </div>
-        <div className="row" >
-        
-        <div className="col-sm-12  text-center mt-5">
-            <h5></h5>
-            <Link to={`/`}>
-                <button type="button" className="btn btn-outline-secondary btn-lg w-50">Back</button>
-            </Link>
-        </div>
-    </div>
-       
-           
+        <div className="container-fluid">   
+            <PlaySide users={users} />
+            <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton}/>  
       </div>
     )
 }
