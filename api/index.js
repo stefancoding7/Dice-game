@@ -29,27 +29,32 @@ const io = socketio(server, {
 
 io.on('connection', (socket) => {
     
-    socket.on('join', ({name, room}, callback) => {
+    socket.on('join', ({name, room, maxscore}, callback) => {
         const rollId = 0;
         const currentPoints = [0];
         const allPoints = 0;
         const activePlayer = 0;
-        const { error, user } = addUser({id: socket.id, name, room, rollId, currentPoints, allPoints, activePlayer});
-       
+        const rolling = false;
+        const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling});
         if(error) return callback(error)
 
         socket.join(user.room);
 
-        
+       // io.to(user.room).emit('maxscore', { maxscore })
         
         const numUsers = getUsersInRoom(user.room)
         
         numUsers.map( (u) => {
             if(u.rollId == u.activePlayer) {
-                socket.broadcast.emit('hideButton', { hideButton: true})
+                socket.to(user.room).emit('hideButton', { hideButton: false})
             }
         })
-        console.log('agian');
+        
+       
+
+        if(numUsers.length == 2) {
+
+        }
 
         //console.log(rollFunction());
         // if ther more thamn 3 players, delete the third player from users array
@@ -73,15 +78,78 @@ io.on('connection', (socket) => {
 
     socket.on('roll', () => {
         const user = getUser(socket.id);
-        
+       
         if(user.rollId == user.activePlayer) {
+          
+            user.rolling = true;
+
+            //remove button when user roll
+            socket.emit('hideButton', { hideButton: true})
            
-            let rolledNumber = rollFunction();
-            user.currentPoints.push(rolledNumber); 
-            
+            setTimeout(() => {
+               
+                user.rolling = false;
+
+                let rolledNumber = rollFunction();
+                
+               
+                // add button back after roll
+                socket.emit('hideButton', { hideButton: false})
+                
+               
+              
+               
+
+
+                /***
+                 * This is for numbers 7 and more
+                 */
+                if(rolledNumber == 7) {
+                   
+                    user.currentPoints = [0, 7];
+
+                    // change buttons if fart
+                   socket.emit('hideButton', { hideButton: true})
+                  socket.broadcast.to(user.room).emit('hideButton', { hideButton: false})
+
+
+                    setTimeout(() => {
+                        user.currentPoints = [0];
+                        getUsersInRoom(user.room).map( u => {
+    
+                           
+                            if(u.rollId != u.activePlayer) {
+                                u.activePlayer = u.activePlayer === 0 ? u.activePlayer = 1 : u.activePlayer = 0;
+                                
+                            } else {
+                                user.activePlayer = user.activePlayer === 0 ? user.activePlayer = 1 : user.activePlayer = 0;
+                            }
+                            })
+                           
+                            const users = getUsersInRoom(user.room);
+               
+                            io.to(user.room).emit('roomData', { users }); 
+                    }, 1000)
+                }  else {
+                   
+                    user.currentPoints.push(rolledNumber); 
+                      
+                    const users = getUsersInRoom(user.room);
+                   
+                    io.to(user.room).emit('roomData', { users }); 
+                }
+
+                  
+                const users = getUsersInRoom(user.room);
+               
+                io.to(user.room).emit('roomData', { users }); 
+               
+            }, 2000)
+           
             const users = getUsersInRoom(user.room);
-           
+               
             io.to(user.room).emit('roomData', { users }); 
+           
         }
        
        
@@ -89,25 +157,38 @@ io.on('connection', (socket) => {
 
     socket.on('hold', () => {
         const user = getUser(socket.id);
-        if(user.rollId == user.activePlayer) {
-           const currentPoints = sumNumbers(user.currentPoints);
-           user.allPoints += currentPoints;
-           user.currentPoints = [0];
-           socket.emit('hideButton', { hideButton: false})
-           getUsersInRoom(user.room).map( u => {
-            if(u.rollId != u.activePlayer) {
-                u.activePlayer = u.activePlayer === 0 ? u.activePlayer = 1 : u.activePlayer = 0;
-                socket.broadcast.emit('hideButton', { hideButton: true})
-            } else {
-                user.activePlayer = user.activePlayer === 0 ? user.activePlayer = 1 : user.activePlayer = 0;
-            }
-            })
-           
-            
-           const  users = getUsersInRoom(user.room);
+        console.log(user.maxscore);
         
-           io.to(user.room).emit('roomData', { users }) 
-        } 
+            if(user.rollId == user.activePlayer) {
+
+                const currentPoints = sumNumbers(user.currentPoints);
+                user.allPoints += currentPoints;
+                user.currentPoints = [0];
+
+                // remove buttons when player hold
+                socket.emit('hideButton', { hideButton: true})
+                
+                if(user.allPoints >= user.maxscore){
+                    console.log('winner');
+                } 
+
+                getUsersInRoom(user.room).map( u => {
+                 if(u.rollId != u.activePlayer) {
+                     u.activePlayer = u.activePlayer === 0 ? u.activePlayer = 1 : u.activePlayer = 0;
+                     // add buttons to another player
+                     socket.broadcast.to(user.room).emit('hideButton', { hideButton: false})
+                 } else {
+                     user.activePlayer = user.activePlayer === 0 ? user.activePlayer = 1 : user.activePlayer = 0;
+                 }
+                 })
+                
+                 
+                const  users = getUsersInRoom(user.room);
+             
+                io.to(user.room).emit('roomData', { users }) 
+             } 
+        
+       
     })
 
     

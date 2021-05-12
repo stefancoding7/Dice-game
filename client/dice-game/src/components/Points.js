@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 
 
-const Points = ({ currentPoints, allPoints }) => {
+const Points = ({ currentPoints, allPoints, maxscore }) => {
+    
     const currentPoint = (num) => {
         const totalScores = num.reduce(
             (previousScore, currentScore, index)=>previousScore+currentScore, 
@@ -14,7 +15,7 @@ const Points = ({ currentPoints, allPoints }) => {
     return (
     <>            
         <div className="all-score text-center">
-                            <h1>{allPoints}</h1>
+                            <h1>{allPoints} - {maxscore}</h1>
                         </div>
         <div className="current-box text-center mt-3">
             <h6 className="p-2">Current</h6>

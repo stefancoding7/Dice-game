@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 const Join = () => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState(Math.floor(Math.random() * 100000000000000));
-    console.log(room);
+    const [maxscore, setMaxScore] = useState(0)
+    
     
     
 
@@ -17,7 +18,7 @@ const Join = () => {
             </div>
         </div>
         <div className="d-flex justify-content-center">
-            <img className="dice-img" alt="..." src={process.env.PUBLIC_URL + '/img/dice-png-30.png'} /> 
+            <img className="dice-img-join rounded-pill" alt="..." src={process.env.PUBLIC_URL + '/img//dice-img/loading.gif'} /> 
         </div>
         
            
@@ -31,9 +32,10 @@ const Join = () => {
                 </div>
                 <div className="mb-3 d-flex justify-content-center">
                
-                <input type="text" className="form-control rounded-pill w-80 text-center"  value={`http://192.168.0.21:3000/play?room=${room}`} onChange={event => setRoom(event.target.value)}/>
+                <input type="text" className="form-control rounded-pill w-80 text-center"  placeholder="Max Score" onChange={event => setMaxScore(event.target.value)}/>
                 </div>
-                <Link onClick={event => (!name) ? event.preventDefault() : null} to={`/play?name=${name}&room=${room}`}>
+               
+                <Link onClick={event => (!name) ? event.preventDefault() : null} to={`/play?name=${name}&maxscore=${maxscore}&room=${room}`}>
                     <button type="button" className="btn btn-outline-secondary btn-lg w-50 rounded-pill">Play</button>
                 </Link>
             </div>

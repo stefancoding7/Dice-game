@@ -9,21 +9,23 @@ let socket;
 const Play = ({ location }) => {
     const [room, setRoom] = useState('');
     const [name, setName] = useState('');
+    const [maxscore, setMaxScore] = useState(0);
     const [users, setUsers] = useState([]);
-    const [hideButton, setHideButton] = useState(false)
+    const [hideButton, setHideButton] = useState(true)
     const [currentPoints, setCurrentPoints] = useState([]);
 
     const ENDPOINT = 'http://192.168.0.21:5000';
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search);
-
+        const { name, room, maxscore } = queryString.parse(location.search);
+        
         socket = io(ENDPOINT, {
             withCredentials: true,
         });
         
         setRoom(room);
-        setName(name)
-        socket.emit('join', { name, room }, () => {
+        setName(name);
+        setMaxScore(maxscore);
+        socket.emit('join', { name, room, maxscore }, () => {
 
         })
 
@@ -68,7 +70,7 @@ const Play = ({ location }) => {
       }
     return (
         <div className="container-fluid">   
-            <PlaySide users={users} />
+            <PlaySide users={users} maxscore={maxscore} room={room}/>
             <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton}/>  
       </div>
     )

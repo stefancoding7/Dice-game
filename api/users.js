@@ -1,6 +1,6 @@
 const users = [];
 
-const addUser = ({id, name, room, rollId, currentPoints, allPoints, activePlayer}) => {
+const addUser = ({id, name, room, rollId, maxscore, currentPoints, allPoints, activePlayer, rolling, hideButton}) => {
     name = name.trim().toLowerCase();
     const existingUser = users.find((user) => user.room === room && user.name === name)
     const existingRollid = users.find((user) => user.room === room && user.rollId === rollId);
@@ -13,11 +13,11 @@ const addUser = ({id, name, room, rollId, currentPoints, allPoints, activePlayer
 
     
     if(existingRollid) {
-        const user = {id, name, room, rollId: 1, currentPoints, allPoints, activePlayer }
+        const user = {id, name, room, maxscore, rollId: 1, currentPoints, allPoints, activePlayer, rolling, hideButton: true }
         users.push(user);
         return { user }
     } else {
-        const user = {id, name, room, rollId, currentPoints, allPoints, activePlayer }
+        const user = {id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling, hideButton }
         users.push(user);
         return { user }
       
