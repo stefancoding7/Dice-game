@@ -31,7 +31,8 @@ const InvitedPerson = ({ location }) => {
         <div className="row">
         
             <div className="col-sm-12  text-center mt-5">
-                <p><b>{name}</b> invited you to play this awesome dice game</p>
+                <p><b>{name}</b> invited you to play this awesome dice game.</p>
+                <p>Max score: <b>{maxscore}</b></p>
                 <div className="mb-3 d-flex justify-content-center">
                
                     <input type="text" className="form-control rounded-pill w-80 text-center"  placeholder="Your player name" onChange={event => setInivtedPlayerName(event.target.value)}/>

@@ -44,15 +44,15 @@ const PlaySide = ({ users, maxscore, urlname, room }) => {
                     <hr></hr>
                     {users.length <= 1 ? 
                     <>
-                        <div className="inivte-box d-flex flex-row justify-content-center">
-                        <div className="row">
+                        <div className="inivte-box ">
+                        <div className="row d-flex flex-row justify-content-center">
                             <div className="col-12">
                                 <h6 className="inivite-text text-center">Click to the button to copy the link, than send to your friend</h6>
                             </div>
                        
                             
                             
-                                <div className="col-4">
+                                <div className="mt-3">
                                 <CopyToClipboard text={`http://192.168.0.21:3000/invite?name=${user.name}&maxscore=${user.maxscore}&room=${room}`} onCopy={setCopy}>
                                 {!onCopy ? 
                                     <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Invite friend</button>
