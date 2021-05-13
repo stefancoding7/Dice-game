@@ -2,33 +2,36 @@ import React, { useEffect, useState} from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Points from './Points';
 
-const PlaySide = ({ users, maxscore, urlname, room }) => {
+const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain }) => {
     const [linkToSend, setLinkToSend] = useState('');
     const [onCopy, setOnCopy] = useState(false);
-    console.log(room)
+
+    //console.log(room)
 
 
 
    const setCopy = () => {
        setOnCopy(true);
    }
+  
 
       return (
             <>
-    
-        <div className="row">
+        {!winner[0] ?
+        <>
+            <div className="row">
             
             {users.map((user) => (
                     
                     <div key={user.id} className="col-12 ">
                     <div className={user.activePlayer == user.rollId ? 'player-box' : 'player-box opacity'}>
                         <h3 className="text-center mt-2">{user.name}</h3>
-                        {console.log(user.name)}    
+                     
                         
-                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore}/>
+                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount}/>
                         <div className="dice-img-box d-flex justify-content-center mt-3">
-                        {console.log(`User name: ${user.name}, user active: ${user.activePlayer}, user rollId: ${user.rollId}`)}
-                            {user.currentPoints.length >= 2  ?
+                     
+                            {user.currentPoints.length >= 2 && !user.rolling && !user.scissors && !user.double ?
                             <> 
                                 <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-${user.currentPoints[user.currentPoints.length - 1]}.png`} /> 
                             </>
@@ -39,6 +42,27 @@ const PlaySide = ({ users, maxscore, urlname, room }) => {
                                 <img className="dice-img rounded-pill fadein" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/loading.gif`} /> 
                             </>
                             : ''}
+
+                            {user.scissors ? 
+                                <> 
+                                <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-8.png`} /> 
+                            </>
+                            : ''
+                            }
+
+                            {user.double ? 
+                                <> 
+                                <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> 
+                            </>
+                            : ''
+                            }
+
+                            {user.fart ? 
+                                <> 
+                                <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-7.png`} /> 
+                            </>
+                            : ''
+                            }
                         </div>
                     </div>
                     <hr></hr>
@@ -71,9 +95,39 @@ const PlaySide = ({ users, maxscore, urlname, room }) => {
                     </>
                      : ''}       
                 </div>
-                
+           
             ))}
         </div>
+        </>   
+        : 
+        <>
+        <div className="container-fluid">
+        <div className="row">
+            <div className="col mb-5 mt-5">
+                <h1 className="text-center"><b>{winner[1]}</b> won</h1>
+            </div>
+        </div>
+        <div className="d-flex justify-content-center">
+            <img className="dice-img-join" alt="..." src={process.env.PUBLIC_URL + '/img/winner.jpg'} /> 
+        </div>
+        
+           
+        <div className="row">
+        
+            <div className="col-sm-12  text-center mt-5">
+                    <button onClick={e => playAgain(e)} type="button" className="btn btn-outline-secondary btn-lg w-50 rounded-pill">Play again</button>
+               
+            </div>
+        </div>
+          
+           
+      </div>
+        </>
+        
+        
+        
+        }
+        
       
        
   </> 

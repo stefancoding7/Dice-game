@@ -28,6 +28,7 @@ body {
 .current-box{
     background-color: coral;
     border-radius: 30px;
+    
 }
 
 .current-score-box{
@@ -48,6 +49,12 @@ input{
 .dice-img{
     width: 70px;
     height: 70px;
+}
+
+.double-mini {
+    width: 20px;
+    height: 20px;
+    
 }
 
 /*

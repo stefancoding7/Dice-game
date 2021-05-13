@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 
 
 
-const Points = ({ currentPoints, allPoints, maxscore }) => {
+const Points = ({ currentPoints, allPoints, maxscore, doubleCount }) => {
     
     const currentPoint = (num) => {
-        const totalScores = num.reduce(
-            (previousScore, currentScore, index)=>previousScore+currentScore, 
-            0);
-            return totalScores
+       
+            const totalScores = num.reduce(
+                (previousScore, currentScore, index)=>previousScore+currentScore, 
+                0);
+                return totalScores
+        
+        
     }
     
    
@@ -18,7 +21,9 @@ const Points = ({ currentPoints, allPoints, maxscore }) => {
                             <h1>{allPoints} - {maxscore}</h1>
                         </div>
         <div className="current-box text-center mt-3">
-            <h6 className="p-2">Current</h6>
+            <h6 className="p-2">Current <span >{doubleCount.length == 1 ? <> 
+                                <img className="double-mini rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> 
+                            </> : ''}</span></h6>
             <div className="current-score-box shadow-lg">
                 <h2 className="text-center">{currentPoint(currentPoints)}</h2>
             </div>

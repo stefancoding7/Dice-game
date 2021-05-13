@@ -35,7 +35,11 @@ io.on('connection', (socket) => {
         const allPoints = 0;
         const activePlayer = 0;
         const rolling = false;
-        const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling});
+        const scissors = false;
+        const fart = false;
+        const double = false;
+        const doubleCount = [];
+        const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling, scissors, fart, double, doubleCount});
         if(error) return callback(error)
 
         socket.join(user.room);
@@ -81,8 +85,12 @@ io.on('connection', (socket) => {
        
         if(user.rollId == user.activePlayer) {
           
+            
             user.rolling = true;
-
+            // set scissors to false
+            user.scissors = false;
+            // set double to back to false
+            user.double = false;
             //remove button when user roll
             socket.emit('hideButton', { hideButton: true})
            
@@ -105,15 +113,18 @@ io.on('connection', (socket) => {
                  * This is for numbers 7 and more
                  */
                 if(rolledNumber == 7) {
-                   
-                    user.currentPoints = [0, 7];
-
-                    // change buttons if fart
+                    user.fart = true;
+                    user.currentPoints = [0];
+                    user.scissors = false;
+                    user.double = false;
+                    user.doubleCount = [];
+                   // change buttons if fart
                    socket.emit('hideButton', { hideButton: true})
-                  socket.broadcast.to(user.room).emit('hideButton', { hideButton: false})
+                   socket.broadcast.to(user.room).emit('hideButton', { hideButton: false})
 
 
                     setTimeout(() => {
+                        user.fart = false;
                         user.currentPoints = [0];
                         getUsersInRoom(user.room).map( u => {
     
@@ -130,7 +141,39 @@ io.on('connection', (socket) => {
                
                             io.to(user.room).emit('roomData', { users }); 
                     }, 1000)
-                }  else {
+                } else if (rolledNumber == 8 && user.currentPoints.length >= 1) {
+                   
+                        // set scissors to true
+                        user.scissors = true;
+
+                        let currentPoints = Math.floor(sumNumbers(user.currentPoints) / 2);
+                        console.log(currentPoints);
+                        user.currentPoints = [0, currentPoints];
+                        const users = getUsersInRoom(user.room);
+                   
+                        io.to(user.room).emit('roomData', { users }); 
+                    
+                   
+                } else if(rolledNumber == 9 && user.currentPoints.length >= 1) {
+                        user.double = true;
+                        user.doubleCount.push(1)
+                        if(user.doubleCount >= 2) {
+                            user.doubleCount = []
+                            const userCurrentPoints = sumNumbers(user.currentPoints) * 2;
+                            user.currentPoints = [0, userCurrentPoints];
+                        } else {
+                            user.doubleCount.push(1)
+                        }
+                        
+                         
+                      
+                        const users = getUsersInRoom(user.room);
+                       
+                        io.to(user.room).emit('roomData', { users });
+                } else {
+                    if(user.doubleCount >= 2) {
+                        user.doubleCount = [];
+                    }
                    
                     user.currentPoints.push(rolledNumber); 
                       
@@ -157,10 +200,12 @@ io.on('connection', (socket) => {
 
     socket.on('hold', () => {
         const user = getUser(socket.id);
-        console.log(user.maxscore);
+       // console.log(user.maxscore);
         
             if(user.rollId == user.activePlayer) {
-
+                 // set scissors to false
+                user.scissors = false;
+                user.doubleCount = [];
                 const currentPoints = sumNumbers(user.currentPoints);
                 user.allPoints += currentPoints;
                 user.currentPoints = [0];
@@ -169,7 +214,7 @@ io.on('connection', (socket) => {
                 socket.emit('hideButton', { hideButton: true})
                 
                 if(user.allPoints >= user.maxscore){
-                    console.log('winner');
+                   io.to(user.room).emit('winner', { winner: [true, user.name] })
                 } 
 
                 getUsersInRoom(user.room).map( u => {
@@ -189,6 +234,23 @@ io.on('connection', (socket) => {
              } 
         
        
+    })
+
+    socket.on('playagain', () => {
+        const user = getUser(socket.id);
+        const  users = getUsersInRoom(user.room);
+
+        users.map((user) => {
+            user.allPoints = 0;
+            user.currentPoints = [0];
+            user.scissors = false;
+            user.double = false;
+        })
+      
+        
+             
+        io.to(user.room).emit('roomData', { users }) 
+        io.to(user.room).emit('winner', { winner: [false] })
     })
 
     

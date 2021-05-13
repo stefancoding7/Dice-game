@@ -6,7 +6,7 @@ activePlayer = 1;
 
 
 const rollFunction = () => {
-    dice = Math.floor(Math.random() * 7) + 1;
+    dice = Math.floor(Math.random() * 9) + 1;
    
     return dice;
 }

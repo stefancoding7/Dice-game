@@ -13,6 +13,7 @@ const Play = ({ location }) => {
     const [users, setUsers] = useState([]);
     const [hideButton, setHideButton] = useState(true)
     const [currentPoints, setCurrentPoints] = useState([]);
+    const [winner, setWinner] = useState([]);
 
     const ENDPOINT = 'http://192.168.0.21:5000';
     useEffect(() => {
@@ -47,7 +48,14 @@ const Play = ({ location }) => {
         
     }, []);
 
-    
+    useEffect(() => {
+        
+        
+        socket.on("winner", ({ winner }) => {
+          setWinner(winner);
+        });
+        
+    }, [winner]);
 
     useEffect(() => {
        
@@ -68,9 +76,17 @@ const Play = ({ location }) => {
         e.preventDefault();
         socket.emit('hold', 'hold')
       }
+
+      const playAgain = (e) => {
+        e.preventDefault();
+        //  console.log('clicked');
+         socket.emit('playagain', { playAgain: true })
+      }
+
+      console.log(winner);
     return (
         <div className="container-fluid">   
-            <PlaySide users={users} maxscore={maxscore} room={room}/>
+            <PlaySide users={users} maxscore={maxscore} room={room} winner={winner} playAgain={playAgain}/>
             <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton}/>  
       </div>
     )
