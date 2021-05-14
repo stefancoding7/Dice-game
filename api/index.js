@@ -4,12 +4,7 @@ const http = require('http');
 const socketio = require('socket.io');
 
 const { addUser, getUser, getUsersInRoom, removeUser } = require('./users');
-const { init, 
-        rollFunction, 
-        getRolledNumbers, 
-        removeRolledNumbers, 
-        getActivePlayer, 
-        changeActivePlayer,
+const { rollFunction, 
         sumNumbers
     } = require('./game')
 
@@ -27,6 +22,9 @@ const io = socketio(server, {
       }
 });
 
+let playShake = false;
+
+
 io.on('connection', (socket) => {
     
     socket.on('join', ({name, room, maxscore}, callback) => {
@@ -40,11 +38,14 @@ io.on('connection', (socket) => {
         const double = false;
         const doubleCount = [];
         const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling, scissors, fart, double, doubleCount});
-        if(error) return callback(error)
-
+        if(error){
+            socket.emit('error', { error })
+            return callback(error)
+        }
+        
         socket.join(user.room);
 
-       // io.to(user.room).emit('maxscore', { maxscore })
+      
         
         const numUsers = getUsersInRoom(user.room)
         
@@ -60,7 +61,7 @@ io.on('connection', (socket) => {
 
         }
 
-        //console.log(rollFunction());
+      
         // if ther more thamn 3 players, delete the third player from users array
         if(numUsers.length >= 3) {
             
@@ -73,7 +74,7 @@ io.on('connection', (socket) => {
                
         }
 
-        // console.log(getUsersInRoom(user.room));
+       
         io.to(user.room).emit('roomData', { users: getUsersInRoom(user.room)})
     
         callback();
@@ -92,11 +93,18 @@ io.on('connection', (socket) => {
             // set double to back to false
             user.double = false;
             //remove button when user roll
+            
+            // set shakeing to true
+            io.to(user.room).emit('playShake', { playShake: true }); 
             socket.emit('hideButton', { hideButton: true})
            
             setTimeout(() => {
                
                 user.rolling = false;
+
+
+                 // set shakeing to false
+                io.to(user.room).emit('playShake', { playShake: false }); 
 
                 let rolledNumber = rollFunction();
                 
@@ -142,7 +150,7 @@ io.on('connection', (socket) => {
                             io.to(user.room).emit('roomData', { users }); 
                     }, 1000)
                 } else if (rolledNumber == 8 && user.currentPoints.length >= 1) {
-                   
+                        
                         // set scissors to true
                         user.scissors = true;
 
@@ -156,8 +164,8 @@ io.on('connection', (socket) => {
                    
                 } else if(rolledNumber == 9 && user.currentPoints.length >= 1) {
                         user.double = true;
-                        user.doubleCount.push(1)
-                        if(user.doubleCount >= 2) {
+                        
+                        if(user.doubleCount >= 1) {
                             user.doubleCount = []
                             const userCurrentPoints = sumNumbers(user.currentPoints) * 2;
                             user.currentPoints = [0, userCurrentPoints];

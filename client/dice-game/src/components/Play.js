@@ -3,6 +3,11 @@ import queryString from 'query-string';
 import io from 'socket.io-client';
 import PlaySide from './PlaySide';
 import Controllers from './Controllers';
+import InvitedPerson from './InvitedPerson';
+
+
+
+
 
 let socket;
 
@@ -14,6 +19,11 @@ const Play = ({ location }) => {
     const [hideButton, setHideButton] = useState(true)
     const [currentPoints, setCurrentPoints] = useState([]);
     const [winner, setWinner] = useState([]);
+    const [error, setError] = useState('');
+
+    // sound effects
+    const [playShake, setPlayShake] = useState(false)
+    
 
     const ENDPOINT = 'http://192.168.0.21:5000';
     useEffect(() => {
@@ -62,12 +72,23 @@ const Play = ({ location }) => {
         socket.on('hideButton', ({ hideButton }) => {
             setHideButton(hideButton)
         })
-    })
+    }, [])
+
+    useEffect(() => {
+      socket.on('error', ({ error }) => {
+        setError(error)
+      })
+    }, [])
+
+    useEffect(() => {
+      socket.on('playShake', ({ playShake }) => {
+        setPlayShake(playShake);
+      })
+    }, [])
 
     const roll = (e) => {
 
         e.preventDefault();
-
         socket.emit('roll', 'roll');
        
       }
@@ -83,11 +104,12 @@ const Play = ({ location }) => {
          socket.emit('playagain', { playAgain: true })
       }
 
-      console.log(winner);
+      console.log(error);
     return (
         <div className="container-fluid">   
             <PlaySide users={users} maxscore={maxscore} room={room} winner={winner} playAgain={playAgain}/>
-            <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton}/>  
+            <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton} playShake={playShake}/>  
+            
       </div>
     )
 }

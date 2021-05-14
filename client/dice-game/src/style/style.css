@@ -57,6 +57,22 @@ input{
     
 }
 
+  select {
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+   
+    background-color: transparent !important;
+    text-align-last:center; 
+  }
+  
+
+  select option {
+      background: #ff4a6f;
+      text-align: center;
+  }
+
 /*
 Fade in
 */

@@ -2,14 +2,14 @@ const users = [];
 
 const addUser = ({id, name, room, rollId, maxscore, currentPoints, allPoints, activePlayer, rolling, hideButton, scissors, fart, double, doubleCount}) => {
     name = name.trim().toLowerCase();
-    const existingUser = users.find((user) => user.room === room && user.name === name)
+  //  const existingUser = users.find((user) => user.room === room && user.name === name)
     const existingRollid = users.find((user) => user.room === room && user.rollId === rollId);
     
     
 
-    if(existingUser) {
-        return { error: 'Username is taken' }
-    }
+    // if(existingUser) {
+    //     return { error: 'Username is taken' }
+    // }
 
     
     if(existingRollid) {
