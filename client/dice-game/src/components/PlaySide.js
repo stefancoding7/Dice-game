@@ -2,11 +2,45 @@ import React, { useEffect, useState} from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Points from './Points';
 
-const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain }) => {
+const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound }) => {
+    
+    
+
+
+
     const [linkToSend, setLinkToSend] = useState('');
     const [onCopy, setOnCopy] = useState(false);
+    
 
-    //console.log(room)
+    
+
+    useEffect(() => {
+        if(playSound[1] == 'shake'){
+            const audio = new Audio('http://192.168.0.21:3000/sound/shake.mp3')
+            playSound[0] ? audio.play() : audio.pause()
+        } else if (playSound[1] == 'fart') {
+            const audio = new Audio('http://192.168.0.21:3000/sound/fart.mp3')
+            playSound[0] ? audio.play() : audio.pause()
+        } else if (playSound[1] == 'scissors') {
+            const audio = new Audio('http://192.168.0.21:3000/sound/scissors.mp3')
+            playSound[0] ? audio.play() : audio.pause()
+        } else if (playSound[1] == 'double') {
+            const audio = new Audio('http://192.168.0.21:3000/sound/double.mp3')
+            playSound[0] ? audio.play() : audio.pause()
+        } else if (playSound[1] == 'double-ones') {
+            const audio = new Audio('http://192.168.0.21:3000/sound/double-ones.mp3')
+            playSound[0] ? audio.play() : audio.pause()
+        } else if (playSound[1] == 'hold') {
+            const audio = new Audio('http://192.168.0.21:3000/sound/hold.mp3')
+            playSound[0] ? audio.play() : audio.pause()
+        } else if (playSound[1] == 'winner') {
+            const audio = new Audio('http://192.168.0.21:3000/sound/winner.mp3')
+            playSound[0] ? audio.play() : audio.pause()
+        } 
+    }, [playSound])
+   
+   // console.log(`playshake ${playSound}`);
+
 
 
 
@@ -81,7 +115,7 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain }) => {
                                 {!onCopy ? 
                                     <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Invite friend</button>
                                     :
-                                    <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Link Copied</button>                               }
+                                    <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Link Copied <span> <img className="link-done-icon rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/outline_done_black_24dp.png`} /> </span></button>                               }
                                    
                                 </CopyToClipboard>
                                 

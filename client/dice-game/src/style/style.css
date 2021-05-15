@@ -73,6 +73,12 @@ input{
       text-align: center;
   }
 
+
+.link-done-icon {
+    width: 20px;
+    height: 20px;
+}
+
 /*
 Fade in
 */

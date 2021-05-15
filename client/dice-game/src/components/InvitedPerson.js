@@ -7,9 +7,9 @@ const InvitedPerson = ({ location }) => {
     const [name, setName] = useState('');
     const [inivtedPlayerName, setInivtedPlayerName] = useState('');
     const [maxscore, setMaxScore] = useState(0);
-    const [error, setError] = useState('');
+    const [error, setError] = useState(false);
     useEffect(() => {
-        console.log('halliii')
+        
         const { room, maxscore, name } = queryString.parse(location.search);
         setRoom(room);
         setMaxScore(maxscore);
@@ -35,13 +35,20 @@ const InvitedPerson = ({ location }) => {
             <div className="col-sm-12  text-center mt-5">
                 <p><b>{name}</b> invited you to play this awesome dice game.</p>
                 <p>Max score: <b>{maxscore}</b></p>
+                {error ? 
+                    <div class="alert alert-danger" role="alert">
+                        Please give your player name
+                    </div>
+                    :
+                    ''
+                }
                 <div className="mb-3 d-flex justify-content-center">
                
                     <input type="text" className="form-control rounded-pill w-80 text-center"  placeholder="Your player name" onChange={event => setInivtedPlayerName(event.target.value)}/>
                 </div>
               
               
-                <Link onClick={event => (!inivtedPlayerName) ? event.preventDefault() : null} to={`/play?name=${inivtedPlayerName}&maxscore=${maxscore}&room=${room}`}>
+                <Link onClick={event => (!inivtedPlayerName) ? event.preventDefault() + setError(true) : null + setError(false)} to={`/play?name=${inivtedPlayerName}&maxscore=${maxscore}&room=${room}`}>
                     <button type="button" className="btn btn-outline-secondary btn-lg w-50 rounded-pill">Join with {name}</button>
                 </Link>
               

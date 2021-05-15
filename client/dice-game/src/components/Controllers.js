@@ -6,22 +6,7 @@ import UseSound from 'use-sound';
    
 
 const Controllers = ( { roll, hold, users, hideButton, playShake } ) => { 
-    console.log(`${playShake}`);
 
-    
-        let shake = document.getElementsByClassName("audio-element")[0]
-       
-           if(playShake) {
-                shake.play()
-           }
-           
-      
-   
-    
-        
-      
-    
-    
    // console.log(Object.keys(users));
   // console.log(user.name);
  
@@ -57,9 +42,7 @@ const Controllers = ( { roll, hold, users, hideButton, playShake } ) => {
                    
                         
             </div>
-            <audio className="audio-element">
-                <source src="http://192.168.0.21:3000/sound/shake.mp3"></source>
-            </audio>
+            
         </div>
     )
         

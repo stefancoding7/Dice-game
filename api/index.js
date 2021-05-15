@@ -95,8 +95,8 @@ io.on('connection', (socket) => {
             //remove button when user roll
             
             // set shakeing to true
-            io.to(user.room).emit('playShake', { playShake: true }); 
-            socket.emit('hideButton', { hideButton: true})
+            io.to(user.room).emit('playSound', { playSound: [true, 'shake'] }); 
+            socket.emit('hideButton', { hideButton: true,})
            
             setTimeout(() => {
                
@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
 
 
                  // set shakeing to false
-                io.to(user.room).emit('playShake', { playShake: false }); 
+                io.to(user.room).emit('playSound', { playSound: [false, 'shake'] }); 
 
                 let rolledNumber = rollFunction();
                 
@@ -121,6 +121,7 @@ io.on('connection', (socket) => {
                  * This is for numbers 7 and more
                  */
                 if(rolledNumber == 7) {
+                    io.to(user.room).emit('playSound', { playSound: [true, 'fart'] }); 
                     user.fart = true;
                     user.currentPoints = [0];
                     user.scissors = false;
@@ -132,6 +133,7 @@ io.on('connection', (socket) => {
 
 
                     setTimeout(() => {
+                        io.to(user.room).emit('playSound', { playSound: [false, 'fart'] }); 
                         user.fart = false;
                         user.currentPoints = [0];
                         getUsersInRoom(user.room).map( u => {
@@ -150,10 +152,10 @@ io.on('connection', (socket) => {
                             io.to(user.room).emit('roomData', { users }); 
                     }, 1000)
                 } else if (rolledNumber == 8 && user.currentPoints.length >= 1) {
-                        
+                        io.to(user.room).emit('playSound', { playSound: [true, 'scissors'] }); 
                         // set scissors to true
                         user.scissors = true;
-
+                       
                         let currentPoints = Math.floor(sumNumbers(user.currentPoints) / 2);
                         console.log(currentPoints);
                         user.currentPoints = [0, currentPoints];
@@ -164,12 +166,14 @@ io.on('connection', (socket) => {
                    
                 } else if(rolledNumber == 9 && user.currentPoints.length >= 1) {
                         user.double = true;
-                        
+                         
                         if(user.doubleCount >= 1) {
+                            io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
                             user.doubleCount = []
                             const userCurrentPoints = sumNumbers(user.currentPoints) * 2;
                             user.currentPoints = [0, userCurrentPoints];
                         } else {
+                            io.to(user.room).emit('playSound', { playSound: [true, 'double-ones'] });
                             user.doubleCount.push(1)
                         }
                         
@@ -211,18 +215,21 @@ io.on('connection', (socket) => {
        // console.log(user.maxscore);
         
             if(user.rollId == user.activePlayer) {
+                io.to(user.room).emit('playSound', { playSound: [true, 'hold'] });
                  // set scissors to false
                 user.scissors = false;
                 user.doubleCount = [];
                 const currentPoints = sumNumbers(user.currentPoints);
                 user.allPoints += currentPoints;
                 user.currentPoints = [0];
+                
 
                 // remove buttons when player hold
                 socket.emit('hideButton', { hideButton: true})
                 
                 if(user.allPoints >= user.maxscore){
                    io.to(user.room).emit('winner', { winner: [true, user.name] })
+                   io.to(user.room).emit('playSound', { playSound: [true, 'winner'] });
                 } 
 
                 getUsersInRoom(user.room).map( u => {
@@ -247,7 +254,7 @@ io.on('connection', (socket) => {
     socket.on('playagain', () => {
         const user = getUser(socket.id);
         const  users = getUsersInRoom(user.room);
-
+        io.to(user.room).emit('playSound', { playSound: [false, 'winner'] });
         users.map((user) => {
             user.allPoints = 0;
             user.currentPoints = [0];
@@ -275,7 +282,7 @@ io.on('connection', (socket) => {
     })
 });
 
-
+  
 
 const PORT = process.env.PORT || 5000;
 

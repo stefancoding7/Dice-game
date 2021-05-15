@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 const Join = () => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState(Math.floor(Math.random() * 100000000000000));
-    const [maxscore, setMaxScore] = useState(0)
+    const [maxscore, setMaxScore] = useState(30)
+    const [error, setError] = useState(false);
     
     
     
@@ -26,6 +27,13 @@ const Join = () => {
         
             <div className="col-12 text-center mt-5">
                 <h5>Play insteat with your friend</h5>
+                {error ? 
+                    <div class="alert alert-danger" role="alert">
+                        Please give your player name
+                    </div>
+                    :
+                    ''
+                }
                 <div class="form-group">
                     <div className="mb-3 d-flex justify-content-center">
                 
@@ -33,7 +41,6 @@ const Join = () => {
                     </div>
                     <div className="mb-3 selectWrapper">
                         <select className="form-control form-select-lg selectBox rounded-pill" aria-label=".form-select-lg" onChange={event => setMaxScore(event.target.value)}  value={maxscore}>
-                            <option >Select max points</option>
                             <option value="10">10 points</option>
                             <option value="20">20 points</option>
                             <option value="30" selected>30 points</option>
@@ -48,7 +55,8 @@ const Join = () => {
                     </div>
                 </div>
                
-                <Link onClick={event => (!name) ? event.preventDefault() : null} to={`/play?name=${name}&maxscore=${maxscore}&room=${room}`}>
+                <Link onClick={event => (!name) ? event.preventDefault() + setError(true) : null + setError(false)} to={`/play?name=${name}&maxscore=${maxscore}&room=${room}`}>
+                  
                     <button type="button" className="btn btn-outline-secondary btn-lg w-50 rounded-pill">Play</button>
                 </Link>
             </div>
