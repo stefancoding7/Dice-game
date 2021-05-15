@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from 'react';
+
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Points from './Points';
 
@@ -12,30 +13,26 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
     const [onCopy, setOnCopy] = useState(false);
     
 
-    
+    const playEffect = (word) => {
+        const audio = new Audio(`http://192.168.0.21:3000/sound/${word}.mp3`)
+        playSound[0] ? audio.play() : audio.pause()
+    }
 
     useEffect(() => {
         if(playSound[1] == 'shake'){
-            const audio = new Audio('http://192.168.0.21:3000/sound/shake.mp3')
-            playSound[0] ? audio.play() : audio.pause()
+            playEffect('shake')
         } else if (playSound[1] == 'fart') {
-            const audio = new Audio('http://192.168.0.21:3000/sound/fart.mp3')
-            playSound[0] ? audio.play() : audio.pause()
+            playEffect('fart')
         } else if (playSound[1] == 'scissors') {
-            const audio = new Audio('http://192.168.0.21:3000/sound/scissors.mp3')
-            playSound[0] ? audio.play() : audio.pause()
+            playEffect('scissors')
         } else if (playSound[1] == 'double') {
-            const audio = new Audio('http://192.168.0.21:3000/sound/double.mp3')
-            playSound[0] ? audio.play() : audio.pause()
+            playEffect('double')
         } else if (playSound[1] == 'double-ones') {
-            const audio = new Audio('http://192.168.0.21:3000/sound/double-ones.mp3')
-            playSound[0] ? audio.play() : audio.pause()
+            playEffect('double-ones')
         } else if (playSound[1] == 'hold') {
-            const audio = new Audio('http://192.168.0.21:3000/sound/hold.mp3')
-            playSound[0] ? audio.play() : audio.pause()
+            playEffect('hold')
         } else if (playSound[1] == 'winner') {
-            const audio = new Audio('http://192.168.0.21:3000/sound/winner.mp3')
-            playSound[0] ? audio.play() : audio.pause()
+            playEffect('winner')
         } 
     }, [playSound])
    
@@ -47,7 +44,13 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
    const setCopy = () => {
        setOnCopy(true);
    }
-  
+   
+   const percent = (partialValue, totalValue) => {
+        const perc =  ((100 * partialValue) / totalValue);
+        console.log(perc);
+        return perc;
+
+   }
 
       return (
             <>
@@ -58,42 +61,42 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
             {users.map((user) => (
                     
                     <div key={user.id} className="col-12 ">
-                    <div className={user.activePlayer == user.rollId ? 'player-box' : 'player-box opacity'}>
-                        <h3 className="text-center mt-2">{user.name}</h3>
+                    <div className={user.activePlayer == user.rollId ? 'player-box' : 'player-box opacity'} style={{backgroundImage: `linear-gradient(90deg, #FF6347 ${percent(user.allPoints, maxscore)}%, transparent 0%)`}}>
+                        <h3 className="text-center mt-2" >{user.name}</h3>
                      
                         
-                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount}/>
+                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount} userrolling={user.rolling}/>
                         <div className="dice-img-box d-flex justify-content-center mt-3">
                      
                             {user.currentPoints.length >= 2 && !user.rolling && !user.scissors && !user.double ?
                             <> 
-                                <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-${user.currentPoints[user.currentPoints.length - 1]}.png`} /> 
+                                <img className="dice-img " alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-${user.currentPoints[user.currentPoints.length - 1]}.png`} /> 
                             </>
                             : ''}
 
                             {user.rolling ?
                             <> 
-                                <img className="dice-img rounded-pill fadein" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/loading.gif`} /> 
+                                <img className="dice-img  fadein" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/loading.gif`} /> 
                             </>
                             : ''}
 
                             {user.scissors ? 
                                 <> 
-                                <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-8.png`} /> 
+                                <img className="dice-img" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-8.png`} /> 
                             </>
                             : ''
                             }
 
-                            {user.double ? 
+                            {user.double && user.doubleCount.length >= 1 ? 
                                 <> 
-                                <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> 
+                                <img className="dice-img " alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> 
                             </>
                             : ''
                             }
 
                             {user.fart ? 
                                 <> 
-                                <img className="dice-img rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-7.png`} /> 
+                                <img className="dice-img" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-7.png`} /> 
                             </>
                             : ''
                             }

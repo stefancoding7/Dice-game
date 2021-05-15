@@ -22,7 +22,7 @@ const InvitedPerson = ({ location }) => {
         <div className="container-fluid">
         <div className="row">
             <div className="col mb-5 mt-5">
-                <h1 className="text-center">Dice Game</h1>
+                <h1 className="text-center">Fart Game</h1>
             </div>
         </div>
         <div className="d-flex justify-content-center">

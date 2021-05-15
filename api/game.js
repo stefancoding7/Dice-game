@@ -1,11 +1,11 @@
 
 const rollFunction = () => {
-    dice = Math.floor(Math.random() * 9) + 1;
+    dice = Math.floor(Math.random() * 10) + 1;
    
     return dice;
 }
 
-const changeActivePlayer = (activePlayer) => {
+const changeActivePlayer = (user) => {
     return user.activePlayer === 0 ? user.activePlayer = 1 : user.activePlayer = 0;
 }
 

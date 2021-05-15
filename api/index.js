@@ -120,7 +120,7 @@ io.on('connection', (socket) => {
                 /***
                  * This is for numbers 7 and more
                  */
-                if(rolledNumber == 7) {
+                if(rolledNumber == 7 || rolledNumber == 10) {
                     io.to(user.room).emit('playSound', { playSound: [true, 'fart'] }); 
                     user.fart = true;
                     user.currentPoints = [0];
