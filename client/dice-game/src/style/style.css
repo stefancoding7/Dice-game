@@ -10,8 +10,8 @@ body {
 
 .dice-img-join {
     border-radius: 30px;
-    height: 220px;
-    width: 220px;
+    height: 120px;
+    width: 120px;
 }
 
 .button-group {
@@ -81,6 +81,77 @@ input{
     width: 20px;
     height: 20px;
 }
+
+.rules-box {
+    position: absolute;
+    bottom: 0;
+    right: 0%;
+    transform: translateX(-50%);
+}
+
+.rules-img {
+    border-radius: 6px;
+    width: 35px;
+    height: 35px;
+}
+
+
+
+.flash {
+    -moz-animation: blink normal 0.5s infinite ease-in-out; /* Firefox */
+    -webkit-animation: blink normal 0.5s infinite ease-in-out; /* Webkit */
+    -ms-animation: blink normal  0.5s infinite ease-in-out; /* IE */
+    animation: blink normal  0.5s infinite ease-in-out; /* Opera and prob css3 final iteration */
+    animation-iteration-count: 3;
+}
+
+@-moz-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+ 
+@-webkit-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+/* IE */
+@-ms-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
+/* Opera and prob css3 final iteration */
+@keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+} 
 
 /*
 Fade in

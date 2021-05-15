@@ -166,15 +166,16 @@ io.on('connection', (socket) => {
                    
                 } else if(rolledNumber == 9 && user.currentPoints.length >= 1) {
                         user.double = true;
-                         
-                        if(user.doubleCount >= 1) {
+                        user.doubleCount.push(1)
+                        if(user.doubleCount.length == 2) {
                             io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
-                            user.doubleCount = []
+                           console.log(user.doubleCount.length);
                             const userCurrentPoints = sumNumbers(user.currentPoints) * 2;
                             user.currentPoints = [0, userCurrentPoints];
+                            user.doubleCount = []
                         } else {
                             io.to(user.room).emit('playSound', { playSound: [true, 'double-ones'] });
-                            user.doubleCount.push(1)
+                            
                         }
                         
                          
@@ -183,7 +184,7 @@ io.on('connection', (socket) => {
                        
                         io.to(user.room).emit('roomData', { users });
                 } else {
-                    if(user.doubleCount >= 2) {
+                    if(user.doubleCount.length >= 2) {
                         user.doubleCount = [];
                     }
                    
@@ -219,6 +220,7 @@ io.on('connection', (socket) => {
                  // set scissors to false
                 user.scissors = false;
                 user.doubleCount = [];
+                user.double = false;
                 const currentPoints = sumNumbers(user.currentPoints);
                 user.allPoints += currentPoints;
                 user.currentPoints = [0];

@@ -14,7 +14,7 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
     
 
     const playEffect = (word) => {
-        const audio = new Audio(`http://192.168.0.21:3000/sound/${word}.mp3`)
+        const audio = new Audio(`${process.env.PUBLIC_URL}/sound/${word}.mp3`)
         playSound[0] ? audio.play() : audio.pause()
     }
 
@@ -87,9 +87,9 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
                             : ''
                             }
 
-                            {user.double && user.doubleCount.length >= 1 ? 
+                            {user.double  ? 
                                 <> 
-                                <img className="dice-img " alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> 
+                                <img className={playSound[1] == 'double-ones' ? 'dice-img' : 'dice-img flash'}  alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> 
                             </>
                             : ''
                             }
