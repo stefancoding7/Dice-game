@@ -1,19 +1,48 @@
 {
   "name": "dice-game",
-  "version": "1.0.0",
-  "description": "Dicing game",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "bootstrap": "^4.6.0",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
+    "react": "^17.0.2",
+    "react-copy-to-clipboard": "^5.0.3",
+    "react-countup": "^4.3.3",
+    "react-dom": "^17.0.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "socket.io-client": "^4.0.1",
+    "use-sound": "^3.0.1",
+    "web-vitals": "^1.0.1"
+  },
   "scripts": {
-    "start": "cd api && node npm start",
-    "heroku-postbuild": "cd api && npm install && npm run build && (cd client react-scripts build)"
+    "start": "react-scripts start",
+    "build": "react-scripts build && (cd api && yarn install)",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stefancoding7/Dice-game.git"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/stefancoding7/Dice-game/issues"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
-  "homepage": "https://github.com/stefancoding7/Dice-game#readme"
+  "proxy": "http://localhost:5000"
 }
