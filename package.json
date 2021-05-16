@@ -4,8 +4,8 @@
   "description": "Dicing game",
   "main": "api/index.js",
   "scripts": {
-    "start": "cd api && node npm start",
-    "heroku-postbuild": "cd client && npm install && npm start"
+    "start": "cd api && node npm start"
+   
   },
   "repository": {
     "type": "git",
