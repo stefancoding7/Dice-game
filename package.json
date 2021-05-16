@@ -1,0 +1,19 @@
+{
+  "name": "dice-game",
+  "version": "1.0.0",
+  "description": "Dicing game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefancoding7/Dice-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stefancoding7/Dice-game/issues"
+  },
+  "homepage": "https://github.com/stefancoding7/Dice-game#readme"
+}

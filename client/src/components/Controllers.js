@@ -7,9 +7,7 @@ import UseSound from 'use-sound';
 
 const Controllers = ( { roll, hold, users, hideButton, playShake } ) => { 
 
-   // console.log(Object.keys(users));
-  // console.log(user.name);
- 
+  
     return ( 
         <div className="button-group mb-3">
 
