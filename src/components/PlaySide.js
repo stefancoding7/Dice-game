@@ -114,7 +114,7 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
                             
                             
                                 <div className="mt-3">
-                                <CopyToClipboard text={`http://192.168.0.21:3000/invite?name=${user.name}&maxscore=${user.maxscore}&room=${room}`} onCopy={setCopy}>
+                                <CopyToClipboard text={`https://fart-game.herokuapp.com/invite?name=${user.name}&maxscore=${user.maxscore}&room=${room}`} onCopy={setCopy}>
                                 {!onCopy ? 
                                     <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Invite friend</button>
                                     :
