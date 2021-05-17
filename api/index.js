@@ -18,6 +18,7 @@ app.use(express.static(buildPath));
 
 const server = http.createServer(app);
 
+// socket. io set up for cors
 const io = socketio(server, {
     cors: {
         origin: "https://fart-game.herokuapp.com/",
