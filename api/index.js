@@ -22,11 +22,9 @@ const server = http.createServer(app);
 
 const io = socketio(server, {
     cors: {
-        origins: "*:*",
+        origin: `http://fart-game.herokuapp.com`,
         methods: ["GET", "POST"],
-        allowedHeaders: ["content-type"],
-        pingTimeout: 7000,
-        pingInterval: 3000
+        credentials: true
       }
 });
 
