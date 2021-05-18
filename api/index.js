@@ -20,7 +20,7 @@ const server = http.createServer(app);
 
 const io = socketio(server, {
     cors: {
-        origin: `https://fart-game.herokuapp.com`,
+        origin: `https://fart-game.herokuapp.com:${process.env.PORT}`,
         methods: ["GET", "POST"],
         credentials: true
       }
