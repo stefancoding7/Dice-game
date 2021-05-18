@@ -18,13 +18,7 @@ const buildPath = path.join(__dirname, '..', 'build');
 
 const server = http.createServer(app);
 
-const io = socketio(server, {
-    cors: {
-        origin: `https://fart-game.herokuapp.com:${process.env.PORT}`,
-        methods: ["GET", "POST"],
-        credentials: true
-      }
-});
+const io = socketio(server);
 
 let playShake = false;
 
