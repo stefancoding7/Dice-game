@@ -13,26 +13,23 @@ var cors = require('cors');
 const app = express();
 app.use(cors())
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-  });
 
 
 const buildPath = path.join(__dirname, '..', 'build');
  app.use(express.static(buildPath));
 
 const server = http.createServer(app);
-
-const io = socketio(server, {
+const PORT = process.env.PORT || 5000;
+const io = require('socket.io')(PORT, {
+    // Now, the CORS config.
+    // You could either use the new `cors` property...
     cors: {
-        origin: `https://fart-game.herokuapp.com`,
-        methods: ["GET", "POST"],
-        credentials: true
-      }
+      origins: "*:*",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["content-type"],
+      pingTimeout: 7000,
+      pingInterval: 3000
+    }
 });
 
 
@@ -304,7 +301,7 @@ io.on('connection', (socket) => {
 
   
 
-const PORT = process.env.PORT || 5000;
+
 
 const router = require('./router');
 const { get } = require('./router');
