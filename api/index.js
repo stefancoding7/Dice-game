@@ -19,17 +19,15 @@ const buildPath = path.join(__dirname, '..', 'build');
  app.use(express.static(buildPath));
 
 const server = http.createServer(app);
-const PORT = process.env.PORT || 5000;
-const io = require('socket.io')(PORT, {
-    // Now, the CORS config.
-    // You could either use the new `cors` property...
+
+const io = socketio(server, {
     cors: {
-      origins: "*:*",
-      methods: ["GET", "POST"],
-      allowedHeaders: ["content-type"],
-      pingTimeout: 7000,
-      pingInterval: 3000
-    }
+        origins: "*:*",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["content-type"],
+        pingTimeout: 7000,
+        pingInterval: 3000
+      }
 });
 
 
@@ -301,7 +299,7 @@ io.on('connection', (socket) => {
 
   
 
-
+const PORT = process.env.PORT || 5000;
 
 const router = require('./router');
 const { get } = require('./router');
