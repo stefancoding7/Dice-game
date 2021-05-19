@@ -36,6 +36,20 @@ const removeUser = (id) => {
     }
 }
 
+const notUnique = (value, index, self) => {
+    return self.indexOf(value) != index;
+  }
+
+const getSingleRooms = () => {
+    const rooms = users.map(user => user.room)
+    console.log(`rooms: ${rooms}`);
+    let notunique = rooms.filter(notUnique)
+  console.log(`not unique: ${notunique}`);
+  const unique = rooms.find((room) => room != notunique)
+  console.log(`unique: ${unique}`);
+
+}
+
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-module.exports = { addUser, getUser, getUsersInRoom, removeUser };
+module.exports = { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms };

@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 
-const { addUser, getUser, getUsersInRoom, removeUser } = require('./users');
+const { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms } = require('./users');
 const { rollFunction, 
         sumNumbers
     } = require('./game')
@@ -27,7 +27,6 @@ const io = socketio(server, {
 });
 
 let playShake = false;
-
 
 io.on('connection', (socket) => {
     
@@ -59,7 +58,11 @@ io.on('connection', (socket) => {
             }
         })
         
+        /***
+         * Get all connected users
+         */
        
+     console.log(getSingleRooms());
 
         if(numUsers.length == 2) {
 
@@ -87,7 +90,7 @@ io.on('connection', (socket) => {
 
     socket.on('roll', () => {
         const user = getUser(socket.id);
-       
+        
         if(user.rollId == user.activePlayer) {
           
             
@@ -256,6 +259,8 @@ io.on('connection', (socket) => {
         
        
     })
+
+
 
     socket.on('playagain', () => {
         const user = getUser(socket.id);

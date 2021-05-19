@@ -9,6 +9,7 @@ import InvitedPerson from './InvitedPerson';
 
 
 
+
 let socket;
 
 const Play = ({ location }) => {
@@ -86,6 +87,9 @@ const Play = ({ location }) => {
       })
     }, [playSound])
 
+
+    
+
     const roll = (e) => {
 
         e.preventDefault();
@@ -103,6 +107,15 @@ const Play = ({ location }) => {
         //  console.log('clicked');
          socket.emit('playagain', { playAgain: true })
       }
+
+
+  /***
+   * Get users from all room stats
+   */
+    
+
+
+
     return (
         <div className="container-fluid">   
             <PlaySide users={users} maxscore={maxscore} room={room} winner={winner} playAgain={playAgain} playSound={playSound}/>

@@ -39,8 +39,7 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
    // console.log(`playshake ${playSound}`);
 
 
-
-
+    
    const setCopy = () => {
        setOnCopy(true);
    }
@@ -61,6 +60,8 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
             {users.map((user) => (
                     
                     <div key={user.id} className="col-12 ">
+                    
+
                     <div className={user.activePlayer == user.rollId ? 'player-box' : 'player-box opacity'} style={{backgroundImage: `linear-gradient(90deg, #FF6347 ${percent(user.allPoints, maxscore)}%, transparent 0%)`}}>
                         <h3 className="text-center mt-2" >{user.name}</h3>
                      
@@ -106,10 +107,10 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
                     {users.length <= 1 ? 
                     <>
                         <div className="inivte-box ">
-                        <div className="row d-flex flex-row justify-content-center">
-                            <div className="col-12">
-                                <h6 className="inivite-text text-center">Click to the button to copy the link, than send to your friend</h6>
-                            </div>
+                            <div className="row d-flex flex-row justify-content-center">
+                                <div className="col-12">
+                                    <h6 className="inivite-text text-center">Click to the button to copy the link, than send to your friend</h6>
+                                </div>
                        
                             
                             
@@ -122,6 +123,12 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
                                    
                                 </CopyToClipboard>
                                 
+                                </div>
+                                <div className="col-12 mt-4">
+                                    <h6 className="inivite-text text-center">OR</h6>
+                                </div>
+                                <div className="mt-3">
+                                    <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Join to room</button>
                                 </div>
                             </div>
                         </div>
