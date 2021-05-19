@@ -25,7 +25,7 @@ const Play = ({ location }) => {
     const [playSound, setPlaySound] = useState([false])
     
 
-    const ENDPOINT = 'https://fart-game.herokuapp.com/';
+    const ENDPOINT = 'http://192.168.0.21:5000';
     useEffect(() => {
         const { name, room, maxscore } = queryString.parse(location.search);
         

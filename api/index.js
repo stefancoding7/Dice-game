@@ -13,25 +13,18 @@ var cors = require('cors');
 const app = express();
 app.use(cors())
 
-
-
-const buildPath = path.join(__dirname, '..', 'build');
- app.use(express.static(buildPath));
+// const buildPath = path.join(__dirname, '..', 'build');
+// app.use(express.static(buildPath));
 
 const server = http.createServer(app);
 
 const io = socketio(server, {
     cors: {
-        origin: `http://fart-game.herokuapp.com`,
+        origin: "http://192.168.0.21:3000",
         methods: ["GET", "POST"],
         credentials: true
       }
 });
-
-
-  
-
-
 
 let playShake = false;
 

@@ -51,22 +51,22 @@ const Join = () => {
             <div className="col-12 text-center mt-5">
                 <h5>Play insteat with your friend</h5>
                 {error ? 
-                    <div className="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert">
                         Please give your player name
                     </div>
                     :
                     ''
                 }
-                <div className="form-group">
+                <div class="form-group">
                     <div className="mb-3 d-flex justify-content-center">
                 
                         <input type="text" className="form-control rounded-pill w-80 text-center"  placeholder="Your player name" onChange={event => setName(event.target.value)}/>
                     </div>
                     <div className="mb-3 selectWrapper">
-                        <select className="form-control form-select-lg selectBox rounded-pill" aria-label=".form-select-lg" onChange={event => setMaxScore(event.target.value)} value={maxscore}>
+                        <select className="form-control form-select-lg selectBox rounded-pill" aria-label=".form-select-lg" onChange={event => setMaxScore(event.target.value)}  value={maxscore}>
                             <option value="10">10 points</option>
                             <option value="20">20 points</option>
-                            <option value="30">30 points</option>
+                            <option value="30" selected>30 points</option>
                             <option value="40">40 points</option>
                             <option value="50">50 points</option>
                             <option value="60">60 points</option>
