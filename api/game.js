@@ -1,6 +1,6 @@
 
 const rollFunction = () => {
-    dice = Math.floor(Math.random() * 10) + 1;
+    dice = 9;
    
     return dice;
 }

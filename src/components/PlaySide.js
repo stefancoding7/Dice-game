@@ -87,7 +87,7 @@ const PlaySide = ({
                         </h3>
                         
                         
-                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount} userrolling={user.rolling} doubleUse={doubleUse} showDouble={showDouble}/>
+                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount} userrolling={user.rolling} doubleUse={doubleUse} showDouble={showDouble} doubleShowForUser={user.doubleShowForUser}/>
                         <div className="dice-img-box d-flex justify-content-center mt-3">
                      
                             {user.currentPoints.length >= 2 && !user.rolling && !user.scissors && !user.double ?

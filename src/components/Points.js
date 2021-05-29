@@ -9,7 +9,8 @@ const Points = ({
     doubleCount, 
     userrolling, 
     doubleUse, 
-    showDouble 
+    showDouble,
+    doubleShowForUser
 }) => {
     
     const currentPoint = (num) => {
@@ -63,9 +64,9 @@ const Points = ({
             
 
             <div className="current-score-box shadow-lg" >
-          
+          {console.log(`doubleshowforuser ${doubleShowForUser}`)}
                 <h2 className="text-center"> <CountUp end={summedCurrentPoints} duration={1} /></h2>
-                {doubleCount.length >= 3 && showDouble ?
+                {doubleCount.length >= 3 && showDouble && doubleShowForUser ?
                         <div className="double-button-box">
                             <img onClick={e => doubleUse(e)} className="double-button-img mr-1" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} />
                         </div>

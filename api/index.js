@@ -40,7 +40,8 @@ io.on('connection', (socket) => {
         const fart = false;
         const double = false;
         const doubleCount = [];
-        const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling, scissors, fart, double, doubleCount});
+        const smile = 1;
+        const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling, scissors, fart, double, doubleCount, smile});
         if(error){
             socket.emit('error', { error })
             return callback(error)
@@ -177,6 +178,7 @@ io.on('connection', (socket) => {
                         
                         user.doubleCount.push(1)
                         if(user.doubleCount.length == 3) {
+                            user.doubleShowForUser = true;
                             socket.emit('showDouble', { showDouble: true })
                            io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
                             //  console.log(user.doubleCount.length);
@@ -270,6 +272,7 @@ io.on('connection', (socket) => {
             user.currentPoints = [0];
             user.scissors = false;
             user.double = false;
+            user.doubleCount = [];
         })
       
         
@@ -281,6 +284,7 @@ io.on('connection', (socket) => {
     socket.on('doubleUse', () => {
         const user = getUser(socket.id);
         if(user.rollId == user.activePlayer) {
+            
             user.double = true;
             io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
             console.log(`User: ${user.name} used double`);
