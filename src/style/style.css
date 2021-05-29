@@ -23,7 +23,7 @@ body {
 
 .player-box {
     height: 40vh;
-    
+    position: relative;
 }
 
 .current-box{
@@ -110,14 +110,16 @@ input{
     height: 20px;
 }
 
-.double-button-box{
-
-}
 
 .rules-img {
     border-radius: 6px;
     width: 35px;
     height: 35px;
+}
+
+.smile-select {
+    outline: none !important;
+    border: none;
 }
 
 

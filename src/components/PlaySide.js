@@ -69,8 +69,23 @@ const PlaySide = ({
                     
 
                     <div className={user.activePlayer == user.rollId ? 'player-box' : 'player-box opacity'} style={{backgroundImage: `linear-gradient(90deg, #FF6347 ${percent(user.allPoints, maxscore)}%, transparent 0%)`}}>
-                        <h3 className="text-center mt-2" >{user.name}</h3>
-                     
+                        <h3 className="position-relative text-center mt-2" >{user.name}
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill current-text  ">
+                        <select className="smile-select rounded-pill" >
+  
+                            <option value="1"> 😁 </option>
+                            <option value="2"> 🤭 </option>
+                            <option value="3"> 🤢 </option>
+                            <option value="4"> 😎 </option>
+                            <option value="5"> 😮 </option>
+                            <option value="6"> 💩 </option>
+                            <option value="7"> ❤ </option>
+                            <option value="8"> 🤞 </option>
+                            <option value="9"> ⌛ </option>
+                        </select>
+                        </span>
+                        </h3>
+                        
                         
                         <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount} userrolling={user.rolling} doubleUse={doubleUse} showDouble={showDouble}/>
                         <div className="dice-img-box d-flex justify-content-center mt-3">
@@ -112,6 +127,7 @@ const PlaySide = ({
                     <hr></hr>
                     {users.length <= 1 ? 
                     <>
+                    
                         <div className="inivte-box ">
                             <div className="row d-flex flex-row justify-content-center">
                                 <div className="col-12">

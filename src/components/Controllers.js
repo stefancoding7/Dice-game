@@ -30,6 +30,7 @@ const Controllers = ( { roll, hold, users, hideButton, playShake } ) => {
                      <div className="col-4">
                         <a href="/" className="btn btn-danger btn-lg rounded-pill">Exit</a>
                     </div>
+                    
                      </>
                   
                   

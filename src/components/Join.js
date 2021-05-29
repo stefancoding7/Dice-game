@@ -85,7 +85,7 @@ const Join = () => {
             </div>
         </div>
         
-        <div className="rules-box mb-3">
+        <div className="rules-box float-right mb-3">
         
             <div className="row">
                 <div className="col">
@@ -95,7 +95,7 @@ const Join = () => {
         </div>
        
           
-           
+        
       </div>
         
     )
