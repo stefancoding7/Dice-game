@@ -43,11 +43,14 @@ const notUnique = (value, index, self) => {
 const getSingleRooms = () => {
     const rooms = users.map(user => user.room)
     console.log(`rooms: ${rooms}`);
-    let notunique = rooms.filter(notUnique)
-  console.log(`not unique: ${notunique}`);
-  const unique = rooms.find((room) => room != notunique)
-  console.log(`unique: ${unique}`);
+    let notunique = []
+    notunique.push(rooms.filter(notUnique))
+   // const myArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+const toRemove = new Set(notunique);
 
+const difference = rooms.filter( x => !toRemove.has(x) );
+
+console.log(difference); // ["a", "d", "e", "f"]
 }
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);

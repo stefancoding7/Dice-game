@@ -3,12 +3,18 @@ import React, { useEffect, useState} from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Points from './Points';
 
-const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound }) => {
+const PlaySide = ({ 
+    users, 
+    maxscore, 
+    urlname, 
+    room, 
+    winner, 
+    playAgain, 
+    playSound, 
+    doubleUse, 
+    showDouble 
+}) => {
     
-    
-
-
-
     const [linkToSend, setLinkToSend] = useState('');
     const [onCopy, setOnCopy] = useState(false);
     
@@ -46,7 +52,7 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
    
    const percent = (partialValue, totalValue) => {
         const perc =  ((100 * partialValue) / totalValue);
-        console.log(perc);
+       // console.log(perc);
         return perc;
 
    }
@@ -66,7 +72,7 @@ const PlaySide = ({ users, maxscore, urlname, room, winner, playAgain, playSound
                         <h3 className="text-center mt-2" >{user.name}</h3>
                      
                         
-                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount} userrolling={user.rolling}/>
+                        <Points currentPoints={user.currentPoints} allPoints={user.allPoints} maxscore={maxscore} doubleCount={user.doubleCount} userrolling={user.rolling} doubleUse={doubleUse} showDouble={showDouble}/>
                         <div className="dice-img-box d-flex justify-content-center mt-3">
                      
                             {user.currentPoints.length >= 2 && !user.rolling && !user.scissors && !user.double ?

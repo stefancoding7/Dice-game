@@ -21,6 +21,10 @@ const Play = ({ location }) => {
     const [currentPoints, setCurrentPoints] = useState([]);
     const [winner, setWinner] = useState([]);
     const [error, setError] = useState('');
+    const [doubleUsed, setDoubleUsed] = useState([]);
+    const [showDouble, setShowDouble] = useState(false);
+    
+
 
     // sound effects
     const [playSound, setPlaySound] = useState([false])
@@ -88,7 +92,17 @@ const Play = ({ location }) => {
     }, [playSound])
 
 
-    
+    useEffect(() => {
+      socket.on('showDouble', ({ showDouble }) => {
+        setShowDouble(showDouble)
+      })
+    }, [showDouble])
+
+    const doubleUse = (e) => {
+        e.preventDefault()
+        console.log('clicked');
+        socket.emit('doubleUse', ({ doubleUse }))
+    }
 
     const roll = (e) => {
 
@@ -113,12 +127,12 @@ const Play = ({ location }) => {
    * Get users from all room stats
    */
     
-
+     // console.log(`Show doube ${showDouble}`);
 
 
     return (
         <div className="container-fluid">   
-            <PlaySide users={users} maxscore={maxscore} room={room} winner={winner} playAgain={playAgain} playSound={playSound}/>
+            <PlaySide users={users} maxscore={maxscore} room={room} winner={winner} playAgain={playAgain} playSound={playSound} doubleUse={doubleUse} showDouble={showDouble}/>
             <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton}/>  
             
       </div>

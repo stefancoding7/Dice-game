@@ -89,8 +89,9 @@ io.on('connection', (socket) => {
     });
 
     socket.on('roll', () => {
-        const user = getUser(socket.id);
-        
+        const user = getUser(socket.id);        
+
+       
         if(user.rollId == user.activePlayer) {
           
             
@@ -133,7 +134,7 @@ io.on('connection', (socket) => {
                     user.currentPoints = [0];
                     user.scissors = false;
                     user.double = false;
-                    user.doubleCount = [];
+                   
                    // change buttons if fart
                    socket.emit('hideButton', { hideButton: true})
                    socket.broadcast.to(user.room).emit('hideButton', { hideButton: false})
@@ -173,16 +174,18 @@ io.on('connection', (socket) => {
                    
                 } else if(rolledNumber == 9 && user.currentPoints.length >= 1) {
                         user.double = true;
+                        
                         user.doubleCount.push(1)
-                        if(user.doubleCount.length == 2) {
-                            io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
-                           console.log(user.doubleCount.length);
-                            const userCurrentPoints = sumNumbers(user.currentPoints) * 2;
-                            user.currentPoints = [0, userCurrentPoints];
-                            user.doubleCount = []
+                        if(user.doubleCount.length == 3) {
+                            socket.emit('showDouble', { showDouble: true })
+                           io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
+                            //  console.log(user.doubleCount.length);
+                          //  const userCurrentPoints = sumNumbers(user.currentPoints) * 2;
+                          //  user.currentPoints = [0, userCurrentPoints];
+                         //   user.doubleCount = []
+                         console.log('Gomb');
                         } else {
                             io.to(user.room).emit('playSound', { playSound: [true, 'double-ones'] });
-                            
                         }
                         
                          
@@ -191,9 +194,6 @@ io.on('connection', (socket) => {
                        
                         io.to(user.room).emit('roomData', { users });
                 } else {
-                    if(user.doubleCount.length >= 2) {
-                        user.doubleCount = [];
-                    }
                    
                     user.currentPoints.push(rolledNumber); 
                       
@@ -226,7 +226,6 @@ io.on('connection', (socket) => {
                 io.to(user.room).emit('playSound', { playSound: [true, 'hold'] });
                  // set scissors to false
                 user.scissors = false;
-                user.doubleCount = [];
                 user.double = false;
                 const currentPoints = sumNumbers(user.currentPoints);
                 user.allPoints += currentPoints;
@@ -279,7 +278,25 @@ io.on('connection', (socket) => {
         io.to(user.room).emit('winner', { winner: [false] })
     })
 
-    
+    socket.on('doubleUse', () => {
+        const user = getUser(socket.id);
+        if(user.rollId == user.activePlayer) {
+            user.double = true;
+            io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
+            console.log(`User: ${user.name} used double`);
+            const userCurrentPoints = sumNumbers(user.currentPoints) * 2;
+            user.currentPoints = [0, userCurrentPoints];
+            user.doubleCount = [];
+            socket.emit('showDouble', { showDouble: false })
+            // io.to(user.room).emit('doubleUsed', {doubleUsed: true});
+            
+        }
+
+            const users = getUsersInRoom(user.room);
+               
+            io.to(user.room).emit('roomData', { users }); 
+               
+    })
 
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
