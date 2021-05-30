@@ -59,7 +59,7 @@ const Points = ({
                 
             </div>
             
-
+                        
             <div className="current-score-box shadow-lg" >
           
                 <h2 className="text-center"> <CountUp end={summedCurrentPoints} duration={1} /></h2>

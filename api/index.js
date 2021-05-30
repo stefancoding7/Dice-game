@@ -237,11 +237,7 @@ io.on('connection', (socket) => {
                 // remove buttons when player hold
                 socket.emit('hideButton', { hideButton: true})
                 
-                if(user.allPoints >= user.maxscore){
-                   io.to(user.room).emit('winner', { winner: [true, user.name] })
-                   io.to(user.room).emit('playSound', { playSound: [true, 'winner'] });
-                } 
-
+               
                 getUsersInRoom(user.room).map( u => {
                  if(u.rollId != u.activePlayer) {
                      u.activePlayer = u.activePlayer === 0 ? u.activePlayer = 1 : u.activePlayer = 0;
@@ -252,7 +248,14 @@ io.on('connection', (socket) => {
                  }
                  })
                 
-                 
+                 if(user.allPoints >= user.maxscore){
+                    io.to(user.room).emit('winner', { winner: [true, user.name] })
+                    io.to(user.room).emit('playSound', { playSound: [true, 'winner'] });
+                    io.to(user.room).emit('showDouble', { showDouble: false });
+                    io.to(user.room).emit('hideButton', { hideButton: true})
+                 } 
+ 
+
                 const  users = getUsersInRoom(user.room);
              
                 io.to(user.room).emit('roomData', { users }) 
@@ -267,12 +270,25 @@ io.on('connection', (socket) => {
         const user = getUser(socket.id);
         const  users = getUsersInRoom(user.room);
         io.to(user.room).emit('playSound', { playSound: [false, 'winner'] });
+        io.to(user.room).emit('showDouble', { showDouble: false })
+        getUsersInRoom(user.room).map( u => {
+            if(u.rollId != u.activePlayer) {
+                u.activePlayer = u.activePlayer === 0 ? u.activePlayer = 1 : u.activePlayer = 0;
+                // add buttons to another player
+                socket.broadcast.to(user.room).emit('hideButton', { hideButton: false})
+            } else {
+                user.activePlayer = user.activePlayer === 0 ? user.activePlayer = 1 : user.activePlayer = 0;
+            }
+            })
+           
+
         users.map((user) => {
             user.allPoints = 0;
             user.currentPoints = [0];
             user.scissors = false;
             user.double = false;
             user.doubleCount = [];
+            
         })
       
         
@@ -283,6 +299,9 @@ io.on('connection', (socket) => {
 
     socket.on('doubleUse', () => {
         const user = getUser(socket.id);
+
+        
+
         if(user.rollId == user.activePlayer) {
             
             user.double = true;
@@ -300,6 +319,10 @@ io.on('connection', (socket) => {
                
             io.to(user.room).emit('roomData', { users }); 
                
+    })
+
+    socket.on('smile', ({ smile }) => {
+        console.log(smile);
     })
 
     socket.on('disconnect', () => {

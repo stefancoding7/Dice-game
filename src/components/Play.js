@@ -23,8 +23,8 @@ const Play = ({ location }) => {
     const [error, setError] = useState('');
     const [doubleUsed, setDoubleUsed] = useState([]);
     const [showDouble, setShowDouble] = useState(false);
+    const [smile, setSmile] = useState(1);
     
-
 
     // sound effects
     const [playSound, setPlaySound] = useState([false])
@@ -122,6 +122,12 @@ const Play = ({ location }) => {
          socket.emit('playagain', { playAgain: true })
       }
 
+      const changeSmile = (value) => {
+        setSmile(value);
+        console.log(smile);
+      }
+      
+    
      
   /***
    * Get users from all room stats
@@ -132,8 +138,26 @@ const Play = ({ location }) => {
 
     return (
         <div className="container-fluid">   
-            <PlaySide users={users} maxscore={maxscore} room={room} winner={winner} playAgain={playAgain} playSound={playSound} doubleUse={doubleUse} showDouble={showDouble}/>
-            <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton} doubleUse={doubleUse}  showDouble={showDouble}/>  
+            <PlaySide 
+            users={users} 
+            maxscore={maxscore} 
+            room={room} 
+            winner={winner} 
+            playAgain={playAgain} 
+            playSound={playSound} 
+            doubleUse={doubleUse} 
+            showDouble={showDouble} 
+            changeSmile={changeSmile}/>
+
+            <Controllers 
+            roll={roll} 
+            hold={hold} 
+            users={users} 
+            hideButton={hideButton} 
+            doubleUse={doubleUse}  
+            showDouble={showDouble}
+              
+            />  
             
       </div>
     )

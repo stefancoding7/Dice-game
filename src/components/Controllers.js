@@ -25,7 +25,7 @@ const Controllers = ( { roll, hold, users, hideButton, playShake, doubleUse, sho
                             <button key={users.id} onClick={e => hold(e)} type="button" className="btn btn-danger btn-lg rounded-pill">Hold</button>
                         </div>
                         
-                        {showDouble ? 
+                    {showDouble ? 
                         <div className="col">
                             <button key={users.id} onClick={e => doubleUse(e)} type="button" className="btn btn-danger btn-lg rounded-pill pr-4 pl-4 p-1">
                                 <img  className="double-button-img" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} />
