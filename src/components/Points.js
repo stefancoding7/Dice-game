@@ -7,10 +7,7 @@ const Points = ({
     allPoints, 
     maxscore, 
     doubleCount, 
-    userrolling, 
-    doubleUse, 
-    showDouble,
-    doubleShowForUser
+    userrolling
 }) => {
     
     const currentPoint = (num) => {
@@ -29,7 +26,7 @@ const Points = ({
         countMiniImg = <img className="double-mini rounded-pill" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} />
     }
     
-   console.log(`show double ${showDouble}`);
+  
     return (
     <>            
         <div className="all-score text-center">
@@ -43,7 +40,7 @@ const Points = ({
                         doubleCount.length <= 2 ?     
                         
                         doubleCount.map((value, index) => {
-                                return <img onClick={e => doubleUse(e)} key={index} className="double-mini mr-1" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} />
+                                return <img  key={index} className="double-mini mr-1" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} />
                         
                         })
                         
@@ -64,11 +61,11 @@ const Points = ({
             
 
             <div className="current-score-box shadow-lg" >
-          {console.log(`doubleshowforuser ${doubleShowForUser}`)}
+          
                 <h2 className="text-center"> <CountUp end={summedCurrentPoints} duration={1} /></h2>
-                {doubleCount.length >= 3 && showDouble && doubleShowForUser ?
+                {doubleCount.length >= 3 ?
                         <div className="double-button-box">
-                            <img onClick={e => doubleUse(e)} className="double-button-img mr-1" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} />
+                            <img className="double-button-img mr-1" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} />
                         </div>
                         :
                         ''

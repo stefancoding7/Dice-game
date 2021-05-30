@@ -71,7 +71,7 @@ const PlaySide = ({
                     <div className={user.activePlayer == user.rollId ? 'player-box' : 'player-box opacity'} style={{backgroundImage: `linear-gradient(90deg, #FF6347 ${percent(user.allPoints, maxscore)}%, transparent 0%)`}}>
                         <h3 className="position-relative text-center mt-2" >{user.name}
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill current-text  ">
-                        <select className="smile-select rounded-pill" >
+                        <select className="smile-select">
   
                             <option value="1"> 😁 </option>
                             <option value="2"> 🤭 </option>

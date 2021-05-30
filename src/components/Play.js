@@ -133,7 +133,7 @@ const Play = ({ location }) => {
     return (
         <div className="container-fluid">   
             <PlaySide users={users} maxscore={maxscore} room={room} winner={winner} playAgain={playAgain} playSound={playSound} doubleUse={doubleUse} showDouble={showDouble}/>
-            <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton}/>  
+            <Controllers roll={roll} hold={hold} users={users} hideButton={hideButton} doubleUse={doubleUse}  showDouble={showDouble}/>  
             
       </div>
     )
