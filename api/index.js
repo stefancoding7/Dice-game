@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const http = require('http');
+const https = require('https');
 const socketio = require('socket.io');
 
 const { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms } = require('./users');
@@ -16,11 +16,11 @@ app.use(cors())
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
-const server = http.createServer(app);
+const server = https.createServer(app);
 // change to localhost for testings s
 const io = socketio(server, {
     cors: {
-        origin: "http://fart-game.herokuapp.com",
+        origin: "https://fart-game.herokuapp.com",
         methods: ["GET", "POST"],
         credentials: true
       }
