@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const https = require('https');
+const http = require('http');
 const socketio = require('socket.io');
 
 const { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms } = require('./users');
@@ -16,7 +16,7 @@ app.use(cors())
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
-const server = https.createServer(app);
+const server = http.createServer(app);
 // change to localhost for testings s
 const io = socketio(server, {
     cors: {
