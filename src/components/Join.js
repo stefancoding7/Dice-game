@@ -26,7 +26,7 @@ const Join = () => {
                     <li><b>Current</b> is your current number. Press <b>Hold</b> and you save your current number</li>
                     <li><span><img className="rules-img" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-7.png`} /> </span> (fart) <b>lose</b> all your current points. And another player will continue on dice.</li>
                     <li><span><img className="rules-img" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-8.png`} /> </span> (scissors) <b>cute half</b> your current points but you could continue on dice.</li>
-                    <li><span><img className="rules-img" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> </span> (double) <b>roll double </b>twice and you double your current points.</li>
+                    <li><span><img className="rules-img" alt="..." src={process.env.PUBLIC_URL + `/img/dice-img/dice-9.png`} /> </span> (double) <b>roll double </b>when you collect 3 doubles you can double your current number any time.</li>
                     
                 </ul>
             </div>

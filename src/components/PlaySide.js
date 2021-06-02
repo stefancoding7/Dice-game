@@ -152,12 +152,7 @@ const PlaySide = ({
                                 </CopyToClipboard>
                                 
                                 </div>
-                                <div className="col-12 mt-4">
-                                    <h6 className="inivite-text text-center">OR</h6>
-                                </div>
-                                <div className="mt-3">
-                                    <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Join to room</button>
-                                </div>
+                                
                             </div>
                         </div>
                         
