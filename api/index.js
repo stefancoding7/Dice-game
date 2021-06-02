@@ -17,7 +17,7 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
 const server = http.createServer(app);
-// change to localhost for testing
+// change to localhost for testings
 const io = socketio(server, {
     cors: {
         origin: "https://fart-game.herokuapp.com",
