@@ -36,23 +36,29 @@ const removeUser = (id) => {
     }
 }
 
-const notUnique = (value, index, self) => {
-    return self.indexOf(value) != index;
-  }
 
-const getSingleRooms = () => {
+  const getSingleRooms = () => {
+    
     const rooms = users.map(user => user.room)
-    console.log(`rooms: ${rooms}`);
-    let notunique = []
-    notunique.push(rooms.filter(notUnique))
-   // const myArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
-const toRemove = new Set(notunique);
 
-const difference = rooms.filter( x => !toRemove.has(x) );
+    const singles = (array) => {
+        for (var i = 0, single = []; i < array.length; i++) {
+          if (array.indexOf(array[i], array.indexOf(array[i]) + 1) === -1)
+            single.push(array[i]);
+        };
+        return single;
+      };
 
-console.log(difference); // ["a", "d", "e", "f"]
+
+  return singles(rooms);
+}
+
+getRandomSingleRooms = (rooms) => {
+    const room = rooms[Math.floor(Math.random() * rooms.length)]
+
+    return room;
 }
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-module.exports = { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms };
+module.exports = { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms, getRandomSingleRooms };

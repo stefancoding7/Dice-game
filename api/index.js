@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 
-const { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms } = require('./users');
+const { addUser, getUser, getUsersInRoom, removeUser, getSingleRooms, getRandomSingleRooms } = require('./users');
 const { rollFunction, 
         sumNumbers
     } = require('./game')
@@ -13,14 +13,30 @@ var cors = require('cors');
 const app = express();
 app.use(cors())
 
-const buildPath = path.join(__dirname, '..', 'build');
-app.use(express.static(buildPath));
+
+/***
+ * ---------------------------CONFIG----------------------------
+ *  Change this url to your domain address. 
+ *  Uncomment everything for production mode
+ */
+// const buildPath = path.join(__dirname, '..', 'build');
+// app.use(express.static(buildPath));
+const url = {
+    baseUrl: 'http://localhost'
+}
+/***
+ * --------------------------CONFIG END--------------------------
+ */
+
+
+
+
 
 const server = http.createServer(app);
 // change to localhost for testings s
 const io = socketio(server, {
     cors: {
-        origin: "http://fart-game.herokuapp.com",
+        origin: `${url.baseUrl}:3000`,
         methods: ["GET", "POST"],
         credentials: true
       }
@@ -52,7 +68,10 @@ io.on('connection', (socket) => {
       
         
         const numUsers = getUsersInRoom(user.room)
+
         
+
+       
         numUsers.map( (u) => {
             if(u.rollId == u.activePlayer) {
                 socket.to(user.room).emit('hideButton', { hideButton: false})
@@ -63,8 +82,7 @@ io.on('connection', (socket) => {
          * Get all connected users
          */
        
-     console.log(getSingleRooms());
-
+     
         if(numUsers.length == 2) {
 
         }
@@ -302,7 +320,7 @@ io.on('connection', (socket) => {
 
         
 
-        if(user.rollId == user.activePlayer) {
+        if(user.rollId === user.activePlayer) {
             
             user.double = true;
             io.to(user.room).emit('playSound', { playSound: [true, 'double'] });
@@ -323,6 +341,17 @@ io.on('connection', (socket) => {
 
     socket.on('smile', ({ smile }) => {
         console.log(smile);
+    })
+
+    socket.on('joinToRoom', ({ joinToRoom }) => {
+        console.log('joined')
+        /***
+         * Get all single rooms for user join
+         */
+         let singleRooms = [];
+         singleRooms = getSingleRooms();
+         
+         console.log(`singles ${getRandomSingleRooms(singleRooms)}`);
     })
 
     socket.on('disconnect', () => {

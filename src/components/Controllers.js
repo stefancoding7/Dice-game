@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import UseSound from 'use-sound';
+import { confirmAlert } from 'react-confirm-alert'; // Import
 
 
 
@@ -7,6 +8,29 @@ import UseSound from 'use-sound';
 
 const Controllers = ( { roll, hold, users, hideButton, playShake, doubleUse, showDouble } ) => { 
 
+    const [askBefore, setAskBefore] = useState(false);
+
+    const changeAskBefore = () => {
+
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => alert('Click Yes')
+              },
+              {
+                label: 'No',
+                onClick: () => alert('Click No')
+              }
+            ]
+          });
+       
+        // alert("Are you sure?");
+        // window.location.href = "/";
+        // return askBefore ? setAskBefore(false) : setAskBefore(true); 
+    }
   
     return ( 
         <div className="button-group mb-3">
@@ -42,7 +66,13 @@ const Controllers = ( { roll, hold, users, hideButton, playShake, doubleUse, sho
                             
                         
                      <div className="col">
-                        <a href="/" className="btn btn-danger btn-lg rounded-pill">Exit</a>
+                     {
+                       askBefore ? 
+                       ''
+                       
+                        : <button onClick={changeAskBefore} className="btn btn-danger btn-lg rounded-pill">Exit</button>
+                   }
+                        
                     </div>
                     
                      </>

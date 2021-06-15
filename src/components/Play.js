@@ -8,7 +8,18 @@ import InvitedPerson from './InvitedPerson';
 
 
 
-
+/***
+ * ------------------CONFIG-------------------------------------------
+ * Change this url to your domain address. 
+ * @linkUrl - Uncomment for developer mode
+ */
+const url = {
+  baseUrl: 'http://localhost', //base url without a port for example http: 
+  linkUrl: 'http://localhost:3000'
+}
+/***
+ * ----------------CONFIG END -------------------------------------
+ */
 
 let socket;
 
@@ -25,12 +36,12 @@ const Play = ({ location }) => {
     const [showDouble, setShowDouble] = useState(false);
     const [smile, setSmile] = useState(1);
     
-
+    
     // sound effects
     const [playSound, setPlaySound] = useState([false])
     
 
-    const ENDPOINT = 'https://fart-game.herokuapp.com/';
+    const ENDPOINT = `${url.baseUrl}:5000`;
     useEffect(() => {
         const { name, room, maxscore } = queryString.parse(location.search);
         
@@ -126,6 +137,12 @@ const Play = ({ location }) => {
         setSmile(value);
         console.log(smile);
       }
+
+      const jointToRoom = (e) => {
+        e.preventDefault();
+       
+        socket.emit('joinToRoom', { jointToRoom: true })
+      }
       
     
      
@@ -147,7 +164,11 @@ const Play = ({ location }) => {
             playSound={playSound} 
             doubleUse={doubleUse} 
             showDouble={showDouble} 
-            changeSmile={changeSmile}/>
+            changeSmile={changeSmile}
+            jointToRoom={jointToRoom}  
+            jointToRoom={jointToRoom}
+            url={url}
+            />
 
             <Controllers 
             roll={roll} 

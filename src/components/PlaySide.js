@@ -13,7 +13,9 @@ const PlaySide = ({
     playSound, 
     doubleUse, 
     showDouble,
-    changeSmile
+    changeSmile,
+    jointToRoom,
+    url
    
 }) => {
     
@@ -30,19 +32,19 @@ const PlaySide = ({
     }
 
     useEffect(() => {
-        if(playSound[1] == 'shake'){
+        if(playSound[1] === 'shake'){
             playEffect('shake')
-        } else if (playSound[1] == 'fart') {
+        } else if (playSound[1] === 'fart') {
             playEffect('fart')
-        } else if (playSound[1] == 'scissors') {
+        } else if (playSound[1] === 'scissors') {
             playEffect('scissors')
-        } else if (playSound[1] == 'double') {
+        } else if (playSound[1] === 'double') {
             playEffect('double')
-        } else if (playSound[1] == 'double-ones') {
+        } else if (playSound[1] === 'double-ones') {
             playEffect('double-ones')
-        } else if (playSound[1] == 'hold') {
+        } else if (playSound[1] === 'hold') {
             playEffect('hold')
-        } else if (playSound[1] == 'winner') {
+        } else if (playSound[1] === 'winner') {
             playEffect('winner')
         } 
     }, [playSound])
@@ -143,7 +145,7 @@ const PlaySide = ({
                             
                             
                                 <div className="mt-3">
-                                <CopyToClipboard text={`https://fart-game.herokuapp.com/invite?name=${user.name}&maxscore=${user.maxscore}&room=${room}`} onCopy={setCopy}>
+                                <CopyToClipboard text={`${url.linkUrl ? url.linkUrl : url.baseUrl}/invite?name=${user.name}&maxscore=${user.maxscore}&room=${room}`} onCopy={setCopy}>
                                 {!onCopy ? 
                                     <button type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Invite friend</button>
                                     :
@@ -151,9 +153,27 @@ const PlaySide = ({
                                    
                                 </CopyToClipboard>
                                 
+                                
+                                
+                                
                                 </div>
                                 
+                               
+
+
+                                
                             </div>
+                            <div className="row d-flex flex-row justify-content-center">
+                                <div className="mt-3">
+                                    OR
+                                </div>
+                            </div>
+                            <div className="row d-flex flex-row justify-content-center">
+                                <div className="mt-3">
+                                    <button onClick={e => jointToRoom(e)} type="button" className="btn btn-danger btn-lg rounded-pill mt-2">Join to Room</button>
+                                </div>
+                            </div>
+                           
                         </div>
                         
         
