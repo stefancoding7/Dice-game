@@ -8,6 +8,7 @@ import InvitedPerson from './InvitedPerson';
 
 
 
+
 /***
  * ------------------CONFIG-------------------------------------------
  * Change this url to your domain address. 
@@ -35,7 +36,7 @@ const Play = ({ location }) => {
     const [doubleUsed, setDoubleUsed] = useState([]);
     const [showDouble, setShowDouble] = useState(false);
     const [smile, setSmile] = useState(1);
-    
+    const [joinRoomData, setJoinRoomData] = useState('')
     
     // sound effects
     const [playSound, setPlaySound] = useState([false])
@@ -109,6 +110,17 @@ const Play = ({ location }) => {
       })
     }, [showDouble])
 
+    useEffect(() => {
+      socket.on('joinRoomData', ({ joinRoomData }) => {
+            setJoinRoomData(joinRoomData)
+      })
+
+      if(joinRoomData) {
+        window.location.href = `${url.linkUrl ? url.linkUrl : url.baseUrl}/play?name=${name}&maxscore=${maxscore}&room=${joinRoomData}`;
+        console.log(joinRoomData);
+      }
+    }, [joinRoomData])
+
     const doubleUse = (e) => {
         e.preventDefault()
         console.log('clicked');
@@ -142,9 +154,11 @@ const Play = ({ location }) => {
         e.preventDefault();
        
         socket.emit('joinToRoom', { jointToRoom: true })
+
+        console.log(`join in function ${joinRoomData}`);
       }
       
-    
+    console.log(`join room data: ${joinRoomData}`);
      
   /***
    * Get users from all room stats
@@ -165,7 +179,6 @@ const Play = ({ location }) => {
             doubleUse={doubleUse} 
             showDouble={showDouble} 
             changeSmile={changeSmile}
-            jointToRoom={jointToRoom}  
             jointToRoom={jointToRoom}
             url={url}
             />

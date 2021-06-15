@@ -12,24 +12,11 @@ const Controllers = ( { roll, hold, users, hideButton, playShake, doubleUse, sho
 
     const changeAskBefore = () => {
 
-        confirmAlert({
-            title: 'Confirm to submit',
-            message: 'Are you sure to do this.',
-            buttons: [
-              {
-                label: 'Yes',
-                onClick: () => alert('Click Yes')
-              },
-              {
-                label: 'No',
-                onClick: () => alert('Click No')
-              }
-            ]
-          });
+        
        
-        // alert("Are you sure?");
-        // window.location.href = "/";
-        // return askBefore ? setAskBefore(false) : setAskBefore(true); 
+        alert("Are you sure?");
+        window.location.href = "/";
+        return askBefore ? setAskBefore(false) : setAskBefore(true); 
     }
   
     return ( 

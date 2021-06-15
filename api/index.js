@@ -345,13 +345,18 @@ io.on('connection', (socket) => {
 
     socket.on('joinToRoom', ({ joinToRoom }) => {
         console.log('joined')
+        const user = getUser(socket.id);
+        console.log(`user room: ${user.room}` );
         /***
          * Get all single rooms for user join
          */
-         let singleRooms = [];
-         singleRooms = getSingleRooms();
+        let allSingles = [];
+        allSingles = getSingleRooms();
+        let allSinglesRemovedOwnId = allSingles.filter(rooms => !user.room.includes(rooms))
+         console.log(`without own id: ${allSinglesRemovedOwnId}`);
          
-         console.log(`singles ${getRandomSingleRooms(singleRooms)}`);
+         socket.emit('joinRoomData', ({ joinRoomData:  getRandomSingleRooms(allSinglesRemovedOwnId)}))
+       // console.log(`singles ${getRandomSingleRooms(singleRooms)}`);
     })
 
     socket.on('disconnect', () => {
