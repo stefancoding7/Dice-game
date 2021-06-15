@@ -14,7 +14,7 @@ import InvitedPerson from './InvitedPerson';
  * @linkUrl - Uncomment for developer mode
  */
 const url = {
-  baseUrl: 'http://localhost', //base url without a port for example http: 
+  baseUrl: 'http://localhost', //base url without a port for example http://localhost
   linkUrl: 'http://localhost:3000'
 }
 /***
