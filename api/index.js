@@ -57,7 +57,8 @@ io.on('connection', (socket) => {
         const double = false;
         const doubleCount = [];
         const smile = 1;
-        const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling, scissors, fart, double, doubleCount, smile});
+        const joinplay = false;
+        const { error, user } = addUser({id: socket.id, name, room, maxscore, rollId, currentPoints, allPoints, activePlayer, rolling, scissors, fart, double, doubleCount, smile, joinplay});
         if(error){
             socket.emit('error', { error })
             return callback(error)
@@ -346,6 +347,9 @@ io.on('connection', (socket) => {
     socket.on('joinToRoom', ({ joinToRoom }) => {
         console.log('joined')
         const user = getUser(socket.id);
+        console.log(user.joinplay);
+        user.joinplay = true;
+        console.log(user.joinplay);
         console.log(`user room: ${user.room}` );
         /***
          * Get all single rooms for user join
@@ -354,7 +358,7 @@ io.on('connection', (socket) => {
         allSingles = getSingleRooms();
         let allSinglesRemovedOwnId = allSingles.filter(rooms => !user.room.includes(rooms))
          console.log(`without own id: ${allSinglesRemovedOwnId}`);
-         
+
          socket.emit('joinRoomData', ({ joinRoomData:  getRandomSingleRooms(allSinglesRemovedOwnId)}))
        // console.log(`singles ${getRandomSingleRooms(singleRooms)}`);
     })
